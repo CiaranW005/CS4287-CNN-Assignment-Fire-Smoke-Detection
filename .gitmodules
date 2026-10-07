@@ -1,7 +1,7 @@
 [submodule "results"]
 	path = results
-	url = git@hf.co:datasets/CS4287/fire-smoke-results.git
+	url = https://huggingface.co/datasets/CS4287/fire-smoke-results
 
 [submodule "data"]
 	path = data
-	url = git@hf.co:datasets/CS4287/fire-smoke-dataset.git
+	url = https://huggingface.co/datasets/CS4287/fire-smoke-dataset
