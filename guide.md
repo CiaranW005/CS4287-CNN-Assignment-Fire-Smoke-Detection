@@ -169,7 +169,8 @@ rm -r ./data
 Then this links into the one on a shared folder
 
 ```bash
-ln -s /data/shared/CS4287/fire-smoke-dataset/data
+mkdir data
+sudo mount --bind /data/shared/CS4287/fire-smoke-dataset/data ./data
 ```
 
 You can the move results to your own data
@@ -178,7 +179,40 @@ You can the move results to your own data
 mkdir -p /data/emma/CS4287
 mv ./results /data/emma/CS4287
 
-ln -s /data/emma/CS4287/results
+mkdir results
+sudo mount --bind /data/emma/CS4287/results ./results
+```
+
+These mounts then need to persist so then run:
+
+```bash
+sudo cp /etc/fstab /etc/fstab.bak
+
+sudo nano /etc/fstab
+```
+
+Add this to the bottom of the file
+
+```bash
+# CS4287 shared dataset
+/data/shared/CS4287/fire-smoke-dataset/data /home/emma/Projects/CS4287-JJ-Project/data none bind,nofail,x-systemd.requires-mounts-for=/data 0 0
+
+# CS4287 results
+/data/emma/CS4287/results /home/emma/Projects/CS4287-JJ-Project/results none bind,nofail,x-systemd.requires-mounts-for=/data 0 0
+```
+
+Save the file then run:
+
+```bash
+sudo systemctl daemon-reload
+sudo mount -a
+```
+
+The verify with:
+
+```bash
+findmnt ./data
+findmnt ./results
 ```
 
 Then the references for the submodule will be off so this needs to be ran
@@ -202,6 +236,11 @@ Should get something like:
 
 ```bash
 /data/USERNAME/CS4287/results
+/home/USERNAME/Projects/CS4287-JJ-Project/.git/modules/results
+
+or:
+
+/home/USERNAME/Projects/CS4287-JJ-Project/results
 /home/USERNAME/Projects/CS4287-JJ-Project/.git/modules/results
 ```
 
