@@ -1,4 +1,5 @@
 If you have any problems let me know sometimes downloading and stuff didnt work right I included the fixes that got it working for me but I couldve forgot one.
+If you're setting it up on my PC most of the stuff stays the same I've added the linux commands too.
 
 Join the huggingface organisation and see if you can see and access the two repos:
 
@@ -7,11 +8,19 @@ CS4287/fire-smoke-dataset
 CS4287/fire-smoke-results
 ```
 
+## Git setup
+
 You need to install 2 things for git these allow you to use git for more larger objects so images/csvs etc
 
 ```bash
 brew install git-lfs
 brew install git-xet
+
+For linux:
+sudo apt update
+sudo apt install git-lfs curl unzip
+
+curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/huggingface/xet-core/refs/heads/main/git_xet/install.sh | sh
 ```
 
 Then initialise both (this does not reinstall them). Do this from the project root too.
@@ -28,8 +37,9 @@ git lfs version
 git xet --version
 ```
 
-If they don't appear you might need to restart VsCode.
+If they don't appear you might need to restart VsCode/terminal.
 
+## Setup huggingface connection
 Next you need to create an SSH key for hugging face
 
 ```bash
@@ -65,13 +75,16 @@ Host hf.co
     IdentityFile ~/.ssh/id_ed25519_huggingface
     IdentitiesOnly yes
     AddKeysToAgent yes
-    UseKeychain yes
+    UseKeychain yes # Include the last line only on Mac
 ```
 
 Add this to your keychain
 
 ```bash
 ssh-add --apple-use-keychain ~/.ssh/id_ed25519_huggingface
+
+For Linux:
+ssh-add ~/.ssh/id_ed25519_huggingface
 ```
 
 You can then test it with
@@ -84,8 +97,16 @@ It should output something like
 
 Hi YOUR_USERNAME, welcome to Hugging Face.
 
+## Downloading the dataset/results
+
 Temporarily disable the download of the large files with lfs, then just initalise the hugging face submodules
 
+If you are on the PC only just run this(Theres a bit more later on what other setup stuff you have to do on the PC):
+```bash
+GIT_LFS_SKIP_SMUDGE=1 git submodule update --init --recursive
+```
+
+Else on your laptop you can continue:
 ```bash
 export GIT_LFS_SKIP_SMUDGE=1
 
@@ -118,11 +139,69 @@ Then move it into memory, you should see image folder in the data branch start p
 git -C data reset --hard HEAD
 ```
 
-For the results folder normal git stuff just works so you can just do 
+If the images appear as some error in vscode as like view as Text or binary do this:
 
 ```bash
-cd results
-git pull
+cd data
+git xet install
+git lfs pull
 ```
 
+Then results can be pulled using this however there is no data in there yet.
+
+```bash
+cd ../results
+git lfs pull
+```
+
+## PC Setup
+
+If you are working on this project or your FYP on the pc there is a parition called /data where you are also a user on.
+
+cd first into wherever you cloned the repository.
+
+For this project you can remove the data folder.
+
+```bash
+rm -r ./data
+```
+
+Then this links into the one on a shared folder
+
+```bash
+ln -s /data/shared/CS4287/fire-smoke-dataset/data
+```
+
+You can the move results to your own data
+
+```bash
+mkdir -p /data/emma/CS4287
+mv ./results /data/emma/CS4287
+
+ln -s /data/emma/CS4287/results
+```
+
+Then the references for the submodule will be off so this needs to be ran
+
+```bash
+printf 'gitdir: %s\n' "$PWD/.git/modules/results" > /data/emma/CS4287/results/.git
+
+git --git-dir="$PWD/.git/modules/results" \
+    config core.worktree /data/emma/CS4287/results
+```
+
+Verify it wored with, if something comes up about data being wrong or something that is fine because its no longer your submodule but mine, aslong as you can see it in the project folder its working as intended.
+
+```bash
+git -C results status
+git -C results rev-parse --show-toplevel
+git -C results rev-parse --git-dir
+```
+
+Should get something like:
+
+```bash
+/data/USERNAME/CS4287/results
+/home/USERNAME/Projects/CS4287-JJ-Project/.git/modules/results
+```
 

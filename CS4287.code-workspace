@@ -1,0 +1,32 @@
+{
+    "folders": [
+        {
+            "name": "CS4287 Project 1",
+            "path": "."
+        },
+        {
+            "name": "Dataset",
+            "path": "./data"
+        },
+        {
+            "name": "Results",
+            "path": "./results"
+        },
+        {
+            "name": "Source",
+            "path": "./src"
+        },
+        {
+            "name": "Notebooks",
+            "path": "./notebooks"
+        }
+    ],
+    "settings": {
+        "files.exclude": {
+            "data": true,
+            "results": true,
+            "src": true,
+            "notebooks": true,
+        }
+    }
+}
