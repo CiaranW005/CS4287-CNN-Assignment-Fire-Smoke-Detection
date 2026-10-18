@@ -22,11 +22,9 @@
         }
     ],
     "settings": {
-        "files.exclude": {
-            "data": true,
-            "results": true,
-            "src": true,
-            "notebooks": true,
-        }
+        "python.analysis.extraPaths": [
+            ".",
+            ".."
+        ]
     }
 }
