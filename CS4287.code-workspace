@@ -25,6 +25,9 @@
         "python.analysis.extraPaths": [
             ".",
             ".."
-        ]
+        ],
+        "git.autoRepositoryDetection": "subFolders",
+        "git.detectSubmodules": true,
+        "git.repositoryScanMaxDepth": 5
     }
 }
