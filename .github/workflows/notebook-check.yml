@@ -1,0 +1,24 @@
+name: Check Notebook Outputs
+
+on:
+  pull_request:
+    paths:
+      - "**/*.ipynb"
+  push:
+    branches:
+      - main
+    paths:
+      - "**/*.ipynb"
+
+jobs:
+  check-notebooks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify notebooks are stripped
+        uses: kynan/nbstripout@main
+        with:
+          paths: "**/*.ipynb"
