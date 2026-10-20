@@ -1,31 +1,12 @@
-import pandas as pd
-import json
-
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from PIL import Image
 
-from src.config.paths import DATASET_DIR, IMAGE_DIR, RESULTS_DIR
+from src.config.paths import DATASET_DIR, IMAGE_DIR
 
 IMAGE_DIR = IMAGE_DIR / "data_analysis"
-df = pd.read_csv(RESULTS_DIR / "csvs/data/metadata_raw.csv")
-df["boxes"] = df["boxes"].apply(json.loads)
 
-def plot_zero_boxes():
-    sizes_df = df["boxes"].explode().dropna().apply(pd.Series)
-
-    sizes_df[["xc", "yc", "width", "height"]] = pd.DataFrame(
-        sizes_df["coordinates"].tolist(),
-        index=sizes_df.index
-    )
-
-    sizes_df["area"] = sizes_df["width"] * sizes_df["height"]
-    sizes_df["split"] = df.loc[sizes_df.index, "split"].to_numpy()
-
-    zero_boxes = sizes_df[sizes_df["area"] == 0]
-
-    print("Zero-area boxes:", len(zero_boxes))
-
+def plot_zero_boxes(zero_boxes, df):
     for idx in zero_boxes.index.unique():
         record = df.loc[idx]
         image_path = DATASET_DIR / record["path"]
