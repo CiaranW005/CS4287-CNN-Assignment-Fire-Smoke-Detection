@@ -71,8 +71,9 @@ class Trainer:
         for imgs, coords in dataloader:
             imgs = imgs.to(device)
 
-            outputs = model(imgs) # TODO here too
-            loss, metrics = criterion(outputs, coords)
+            with torch.autocast(device_type="cuda", dtype=torch.float16):
+                outputs = model(imgs) # TODO here too
+                loss, metrics = criterion(outputs, coords)
 
             history.append(loss, metrics)
                
