@@ -1,15 +1,16 @@
 import torch
-import torch.nn as nn
 
 import numpy as np
 
 import time
 from tqdm.auto import tqdm
 
+import json
 from copy import deepcopy
 from collections import deque
 
-from src.config.types import TrainingObjects, TrainingResults
+from src.config.types import TrainingObjects, TrainingResults, EpochHistory, ModelHistory
+from src.config.paths import MODEL_DIR
 
 class Trainer:
     def __init__(self, objs: TrainingObjects):
@@ -28,7 +29,7 @@ class Trainer:
         mini_batches = len(dataloader)
         num_batches = mini_batches / accum_steps
 
-        total_loss = 0.0
+        history = EpochHistory()
         optimizer.zero_grad()
         for i, (imgs, coords) in enumerate(dataloader):
             imgs = imgs.to(device)
@@ -48,8 +49,7 @@ class Trainer:
                 scaler.update()
                 optimizer.zero_grad()
 
-            total_loss += loss.item() 
-
+            history.append(loss, metrics)
 
         if num_batches == 0:
             raise RuntimeError("Training dataloader produced no batches")
@@ -57,7 +57,7 @@ class Trainer:
         if num_batches % accum_steps != 0:
             scaler.step(optimizer)
             scaler.update()
-        return total_loss / num_batches # Avg loss across epoch
+        return history
 
     @torch.inference_mode()
     def evaluate(self, dataloader):
@@ -67,19 +67,19 @@ class Trainer:
 
         model.eval()
 
-        total_loss = 0.0
+        history = EpochHistory()
         for imgs, coords in dataloader:
             imgs = imgs.to(device)
 
             outputs = model(imgs) # TODO here too
             loss, metrics = criterion(outputs, coords)
 
-            total_loss += loss.item()
+            history.append(loss, metrics)
                
         num_batches = len(dataloader)
         if num_batches == 0:
             raise RuntimeError("Evaluation dataloader produced no batches")
-        return total_loss / num_batches # Avg loss across epoch
+        return history
 
     def train_model(
             self, 
@@ -99,18 +99,24 @@ class Trainer:
 
         pbar = tqdm(total=epochs, desc="Training")
 
+        history = ModelHistory()
         try:
             for epoch in range(epochs):
                 torch.cuda.reset_peak_memory_stats()
                 start = time.perf_counter()
-                train_loss = self.train_one_epoch(train_loader)
+                train_history = self.train_one_epoch(train_loader)
                 train_time = time.perf_counter() - start
                 print(f"Peak VRAM: {torch.cuda.max_memory_allocated() / 1024**3:.2f} GiB")
 
                 start = time.perf_counter()
-                eval_loss = self.evaluate(val_loader)
+                eval_history = self.evaluate(val_loader)
                 eval_time = time.perf_counter() - start
 
+                eval_loss = eval_history.avg_loss
+                train_loss = train_history.avg_loss
+
+                history.append(train_history, eval_history)
+                
                 if eval_loss < best_eval_loss:
                     best_eval_loss = eval_loss
                     best_epoch = epoch + 1
@@ -148,6 +154,7 @@ class Trainer:
 
         except Exception as e:
             return TrainingResults(
+                history=history,
                 best_state=best_state,
                 best_eval_loss=best_eval_loss,
                 best_epoch=best_epoch,
@@ -157,8 +164,23 @@ class Trainer:
             pbar.close()
 
         return TrainingResults(
+            history=history,
             best_state=best_state,
             best_eval_loss=best_eval_loss,
             best_epoch=best_epoch,
             )
+
+    @staticmethod
+    def save_results(results, model_info, timestamp):
+        EXPER_DIR = MODEL_DIR / timestamp
+        EXPER_DIR.mkdir(parents=True, exist_ok=True)
+
+        with open(EXPER_DIR / "metadata.json", "w") as f:
+            json.dump(model_info, f, indent=4)
+
+        # TODO convert results to csv/json
+
+        if results.best_state is not None:
+            torch.save(results.best_state.to("cpu"), EXPER_DIR / "model.pt")
+            print(f"Best Model Saved (val_loss={results.best_val_loss:.4f}) at epoch {results.best_epoch}")
 
