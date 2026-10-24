@@ -17,11 +17,19 @@
             "path": "./src"
         },
         {
+            "name": "Scripts",
+            "path": "./scripts"
+        },
+        {
             "name": "Notebooks",
             "path": "./notebooks"
         }
     ],
     "settings": {
+        "python-envs.workspaceSearchPaths": [
+            "./**/.venv",
+            "../.venv"
+        ],
         "python.analysis.extraPaths": [
             ".",
             ".."
