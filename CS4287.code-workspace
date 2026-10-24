@@ -23,6 +23,10 @@
         {
             "name": "Notebooks",
             "path": "./notebooks"
+        },
+        {
+            "name": "Tests",
+            "path": "./tests"
         }
     ],
     "settings": {

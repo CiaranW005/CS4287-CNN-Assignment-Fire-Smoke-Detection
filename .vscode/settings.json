@@ -3,6 +3,8 @@
         "data": true,
         "results": true,
         "src": true,
-        "notebooks": true
+        "notebooks": true,
+        "scripts": true,
+        "tests": true
     },
 }
