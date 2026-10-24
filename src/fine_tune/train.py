@@ -49,7 +49,7 @@ class Trainer:
                 scaler.update()
                 optimizer.zero_grad()
 
-            history.append(loss, metrics)
+            history.append(loss.item(), metrics)
 
         if num_batches == 0:
             raise RuntimeError("Training dataloader produced no batches")
@@ -75,7 +75,7 @@ class Trainer:
                 outputs = model(imgs) # TODO here too
                 loss, metrics = criterion(outputs, coords)
 
-            history.append(loss, metrics)
+            history.append(loss.item(), metrics)
                
         num_batches = len(dataloader)
         if num_batches == 0:
@@ -182,6 +182,10 @@ class Trainer:
         # TODO convert results to csv/json
 
         if results.best_state is not None:
-            torch.save(results.best_state.to("cpu"), EXPER_DIR / "model.pt")
-            print(f"Best Model Saved (val_loss={results.best_val_loss:.4f}) at epoch {results.best_epoch}")
+            cpu_state = {
+                key: value.detach().cpu()
+                for key, value in results.best_state.items()
+            }
+            torch.save(cpu_state, EXPER_DIR / "model.pt")
+            print(f"Best Model Saved (val_loss={results.best_eval_loss:.4f}) at epoch {results.best_epoch}")
 

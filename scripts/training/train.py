@@ -13,6 +13,7 @@ import subprocess
 import gc
 
 from src.fine_tune import Trainer, HybridModel
+from src.fine_tune.losses import YOLOLoss
 from src.data.preprocessing import ModelData, train_transform, eval_transform
 
 from src.utils import get_device, parse_boxes, collate_fn
@@ -105,7 +106,7 @@ if __name__ == "__main__":
 
     optimiser = AdamW(model.parameters(), lr=PARAMS["learning_rate"], weight_decay=PARAMS["weight_decay"])
 
-    criterion = lambda x, y: (x, y) #TODO define a criterion using some loss functions and returns metrics
+    criterion = YOLOLoss() #TODO define a criterion using some loss functions and returns metrics
 
     scaler = torch.amp.GradScaler("cuda")
 
@@ -127,14 +128,17 @@ if __name__ == "__main__":
     )
     if results.error is not None:
         raise results.error
-    try:
-        trainer.save_results(
-            results,
-            model_info=MODEL_INFO,
-            timestamp=timestamp
-        )
+    
+    try:        
+        if results.best_state is not None:
+            training_objs.model.load_state_dict(results.best_state)
+            test_history = trainer.evaluate(test_loader)
 
-        test_history = trainer.evaluate(test_loader)
+            trainer.save_results(
+                results,
+                model_info=MODEL_INFO,
+                timestamp=timestamp
+            )
     finally:
         del trainer
         gc.collect()
