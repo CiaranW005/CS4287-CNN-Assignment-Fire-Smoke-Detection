@@ -28,15 +28,15 @@ Use the sections below in order. The marked sections total 15 marks. The stateme
 
 **What needs to be done:** create the report cover page.
 
-- [ ] Include a title page.
-- [ ] Suggested contents: project title, module, assignment, team names, and student IDs.
+- [x] Include a title page.
+- [x] Suggested contents: project title, module, assignment, team names, and student IDs.
 
 ### 2. Table of contents
 
 **What needs to be done:** make the report easy to navigate.
 
-- [ ] Include a table of contents.
-- [ ] Check that headings and final page numbers match the report.
+- [x] Include a table of contents.
+- [x] Check that headings and final page numbers match the report.
 
 ### 3. The dataset - 2 marks
 

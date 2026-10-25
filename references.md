@@ -9,3 +9,5 @@ https://github.com/pytorch/vision/blob/main/torchvision/models/resnet.py
 
 Prompts:
 How to intialise the weights of a model when you only have a certain part of it 
+
+Generate bibtexes for website
