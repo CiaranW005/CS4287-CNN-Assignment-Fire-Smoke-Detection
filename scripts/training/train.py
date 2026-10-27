@@ -106,7 +106,7 @@ if __name__ == "__main__":
 
     optimiser = AdamW(model.parameters(), lr=PARAMS["learning_rate"], weight_decay=PARAMS["weight_decay"])
 
-    criterion = YOLOLoss() #TODO define a criterion using some loss functions and returns metrics
+    criterion = YOLOLoss(model) 
 
     scaler = torch.amp.GradScaler("cuda")
 
