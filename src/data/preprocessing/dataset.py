@@ -1,3 +1,4 @@
+import torch
 from torch.utils.data import Dataset
 from PIL import Image
 
@@ -16,10 +17,16 @@ class ModelData(Dataset):
         return len(self.data)
 
     def __getitem__(self, idx: int):
-        path, boxes = self.data[idx] # TODO ensure coords are in the correct format for going through
+        path, boxes = self.data[idx] 
         img = Image.open(self.root / path).convert("RGB")
 
-        # TODO also transform coordinates
         img = self.transform(img)
 
-        return img, boxes
+        # (N, 5): class, x_center, y_center, width, height (normalised 0-1)
+        # reshape keeps images with no boxes as (0,5) instead of (0,)
+        labels = torch.tensor(
+            [[box.category, *box.coordinates] for box in boxes],
+            dtype=torch.float32,
+        ).reshape(-1, 5)
+
+        return img, labels
