@@ -147,7 +147,7 @@ class Trainer:
                 start = time.perf_counter()
                 train_history = self.train_one_epoch(train_loader)
                 train_time = time.perf_counter() - start
-                print(f"Peak VRAM: {torch.cuda.max_memory_allocated() / 1024**3:.2f} GiB")
+                vram = f"{torch.cuda.max_memory_allocated() / 1024**3:.2f} GiB"
 
                 start = time.perf_counter()
                 eval_history = self.evaluate(val_loader)
@@ -169,11 +169,12 @@ class Trainer:
                     f"Epoch {epoch + 1:02d} | "
                     f"Train loss {train_loss:.4f} | "
                     f"Eval loss {eval_loss:.4f} | "
+                    f"Gap {abs(eval_loss - train_loss):.4f} | "
                     f"mAP50 {eval_history.map50:.3f} | "
                     f"mAP50-95 {eval_history.map50_95:.3f} | "
-                    f"Gap {abs(eval_loss - train_loss):.4f} | "
                     f"Train time {train_time} | "
                     f"Eval time {eval_time} | "
+                    f"VRAM usage {vram} | " 
                 )
 
                 pbar.update(1)

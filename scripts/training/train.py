@@ -39,9 +39,9 @@ if __name__ == "__main__":
         "num_workers": 8,
         "pin_memory": device.type == "cuda",
         
-        "batch_size": 16,
-        "epochs": 5,
-        "accumulation_steps": 1,
+        "batch_size": 8,
+        "epochs": 2,
+        "accumulation_steps": 2,
 
         "learning_rate": 1e-3,
         "weight_decay": 1e-4,
