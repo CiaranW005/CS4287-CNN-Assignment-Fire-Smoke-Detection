@@ -1,6 +1,7 @@
 import torch
 
 import numpy as np
+import pandas as pd
 
 import time
 from tqdm.auto import tqdm
@@ -220,7 +221,17 @@ class Trainer:
         with open(EXPER_DIR / "metadata.json", "w") as f:
             json.dump(model_info, f, indent=4)
 
-        # TODO convert results to csv/json
+        rows = [
+            {
+            "epoch": epoch,
+            "train_loss": train.avg_loss,
+            "val_loss": val.avg_loss,
+            "val_map50": val.map50,
+            "val_map50_95": val.map50_95,
+            }
+            for epoch, (train, val) in enumerate(zip(results.history.train, results.history.eval), start=1)
+        ]
+        pd.DataFrame(rows).to_csv(EXPER_DIR / "history.csv", index=False)
 
         if results.best_state is not None:
             cpu_state = {
