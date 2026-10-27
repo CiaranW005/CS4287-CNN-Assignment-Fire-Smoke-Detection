@@ -142,6 +142,11 @@ if __name__ == "__main__":
         if results.best_state is not None:
             training_objs.model.load_state_dict(results.best_state)
             test_history = trainer.evaluate(test_loader)
+            print(
+                f"Test mAP50 {test_history.map50:.3f} | "
+                f"mAP50-95 {test_history.map50_95:.3f} | "
+                f"per class [smoke, fire] {test_history.map_per_class}"
+            )
 
             trainer.save_results(
                 results,

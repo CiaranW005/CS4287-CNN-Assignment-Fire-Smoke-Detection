@@ -46,7 +46,12 @@ class TrainingObjects:
 @dataclass
 class EpochHistory:
     losses: list[float] = field(default_factory=list)
-    metrics: list[float]  = field(default_factory=list) # TODO find out what is being returned 
+    metrics: list[float]  = field(default_factory=list)
+
+    # set by Trainer.evaluate, computed over the whole split
+    map50: float | None = None
+    map50_95: float | None = None
+    map_per_class: list[float] | None = None # [smoke, fire] 
 
     def append(self, loss, metrics):
         self.losses.append(loss)

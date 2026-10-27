@@ -9,6 +9,10 @@ import json
 from copy import deepcopy
 from collections import deque
 
+from torchmetrics.detection import MeanAveragePrecision
+from torchvision.ops import box_convert
+from ultralytics.utils.nms import non_max_suppression
+
 from src.config.types import TrainingObjects, TrainingResults, EpochHistory, ModelHistory
 from src.config.paths import MODEL_DIR
 
@@ -60,22 +64,62 @@ class Trainer:
         criterion = self.objs.criterion
         device = self.objs.device
 
+        if len(dataloader) == 0:
+            raise RuntimeError("Evaluation dataloader produced no batches")
+
         model.eval()
 
+        # COCO-style mAP over the whole split, class_metrics gives fire and smoke separately
+        mean_ap = MeanAveragePrecision(box_format="xyxy", iou_type="bbox", class_metrics=True)
+
         history = EpochHistory()
-        for imgs, coords in dataloader:
+        for imgs, targets in dataloader:
             imgs = imgs.to(device)
 
             with torch.autocast(device_type="cuda", dtype=torch.float16):
-                outputs = model(imgs) # TODO here too
-                loss, metrics = criterion(outputs, coords)
+                outputs = model(imgs) # eval mode: (decoded boxes, raw predictions)
+                loss, metrics = criterion(outputs, targets)
 
             history.append(loss.item(), metrics)
-               
-        num_batches = len(dataloader)
-        if num_batches == 0:
-            raise RuntimeError("Evaluation dataloader produced no batches")
+
+            # same thresholds Ultralytics validates with, low conf keeps every recall level
+            detections = non_max_suppression(outputs, conf_thres=0.001, iou_thres=0.7)
+
+            predictions = [
+                {
+                    "boxes": det[:, :4].float().cpu(),
+                    "scores": det[:, 4].float().cpu(),
+                    "labels": det[:, 5].long().cpu(),
+                }
+                for det in detections
+            ]
+            mean_ap.update(predictions, self._ground_truth(targets, len(imgs), imgs.shape[-2:]))
+
+        results = mean_ap.compute()
+        history.map50 = results["map_50"].item()
+        history.map50_95 = results["map"].item()
+        history.map_per_class = results["map_per_class"].tolist()
+
         return history
+
+    @staticmethod
+    def _ground_truth(targets, batch_size, image_size):
+        """Converts collated targets to per-image pixel xyxy boxes for MeanAveragePrecision
+
+        targets["bboxes"] are normalised x_center, y_center, width, height
+        predictions from NMS are pixel x1, y1, x2, y2 so the targets are scaled to match
+        """
+        height, width = image_size
+        scale = torch.tensor([width, height, width, height])
+        boxes = box_convert(targets["bboxes"] * scale, in_fmt="cxcywh", out_fmt="xyxy")
+
+        return [
+            {
+                "boxes": boxes[targets["batch_idx"] == i],
+                "labels": targets["cls"][targets["batch_idx"] == i].long(),
+            }
+            for i in range(batch_size)
+        ]
 
     def train_model(
             self, 
@@ -124,6 +168,8 @@ class Trainer:
                     f"Epoch {epoch + 1:02d} | "
                     f"Train loss {train_loss:.4f} | "
                     f"Eval loss {eval_loss:.4f} | "
+                    f"mAP50 {eval_history.map50:.3f} | "
+                    f"mAP50-95 {eval_history.map50_95:.3f} | "
                     f"Gap {abs(eval_loss - train_loss):.4f} | "
                     f"Train time {train_time} | "
                     f"Eval time {eval_time} | "
