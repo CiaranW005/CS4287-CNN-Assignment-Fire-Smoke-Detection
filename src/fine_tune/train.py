@@ -26,8 +26,9 @@ class Trainer:
 
         model.train()
 
-        mini_batches = len(dataloader)
-        num_batches = mini_batches / accum_steps
+        num_batches = len(dataloader)
+        if num_batches == 0:
+            raise RuntimeError("Training dataloader produced no batches")
 
         history = EpochHistory()
         optimizer.zero_grad()
@@ -38,25 +39,19 @@ class Trainer:
             batch_size = min(accum_steps, num_batches - batch_start)
 
             with torch.autocast(device_type="cuda", dtype=torch.float16):
-                outputs = model(imgs) #TODO find out what YOLO returns
+                outputs = model(imgs)
                 loss, metrics = criterion(outputs, coords)
 
             scaler.scale(loss / batch_size).backward()
 
             # gradient accumulation, lets it simulate larger batches
-            if (i + 1) % batch_size == 0:
+            if (i + 1) % accum_steps == 0 or (i + 1) == num_batches:
                 scaler.step(optimizer)
                 scaler.update()
                 optimizer.zero_grad()
 
             history.append(loss.item(), metrics)
-
-        if num_batches == 0:
-            raise RuntimeError("Training dataloader produced no batches")
         
-        if num_batches % accum_steps != 0:
-            scaler.step(optimizer)
-            scaler.update()
         return history
 
     @torch.inference_mode()

@@ -39,9 +39,9 @@ if __name__ == "__main__":
         "num_workers": 8,
         "pin_memory": device.type == "cuda",
         
-        "batch_size": 1,
+        "batch_size": 16,
         "epochs": 5,
-        "accumulation_steps": 4,
+        "accumulation_steps": 1,
 
         "learning_rate": 1e-3,
         "weight_decay": 1e-4,
@@ -104,7 +104,16 @@ if __name__ == "__main__":
 
     model = HybridModel().to(device)
 
-    optimiser = AdamW(model.parameters(), lr=PARAMS["learning_rate"], weight_decay=PARAMS["weight_decay"])
+    optimiser = AdamW(
+        [
+            #pretrained backbone: smaller steps so the ImageNet features aren't wiped out
+            {"params": model.backbone.parameters(), "lr": PARAMS["learning_rate"] * 0.1},
+            # adapter, neck and head start from random init so use the full rate
+            {"params": [p for name, p in model.named_parameters() if not name.startswith("backbone.")]},
+        ],
+        lr=PARAMS["learning_rate"], 
+        weight_decay=PARAMS["weight_decay"]
+    )
 
     criterion = YOLOLoss(model) 
 
