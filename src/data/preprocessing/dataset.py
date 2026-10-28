@@ -1,5 +1,7 @@
 import torch
+from torchvision.transforms import functional as F
 from torch.utils.data import Dataset
+
 from PIL import Image
 
 class ModelData(Dataset):
@@ -7,11 +9,14 @@ class ModelData(Dataset):
             self, 
             root, 
             data, # tuple[paths, coordinates] 
-            transform
+            transform,
+            flip_prob: float = 0.0,
         ):
         self.root = root
         self.data = data
         self.transform = transform
+
+        self.flip_prob = flip_prob
 
     def __len__(self):
         return len(self.data)
@@ -28,5 +33,11 @@ class ModelData(Dataset):
             [[box.category, *box.coordinates] for box in boxes],
             dtype=torch.float32,
         ).reshape(-1, 5)
+
+        # Random horizontal flip
+        if torch.rand(1).item() < self.flip_prob:
+            img = F.hflip(img)
+
+            labels[:, 1] = 1.0 - labels[:, 1]
 
         return img, labels
