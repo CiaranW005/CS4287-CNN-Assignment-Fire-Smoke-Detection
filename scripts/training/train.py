@@ -71,7 +71,12 @@ if __name__ == "__main__":
         .itertuples(index=False, name=None)
     )
 
-    train_dataset = ModelData(DATASET_DIR, train_data, train_transform, flip_prob=0.5)
+    train_dataset = ModelData(
+        DATASET_DIR, train_data, train_transform, 
+        flip_prob=0.0,
+        zoom_prob=0.5, zoom_max=1.3
+        )
+    
     val_dataset = ModelData(DATASET_DIR, val_data, eval_transform)
     test_dataset = ModelData(DATASET_DIR, test_data, eval_transform)
 

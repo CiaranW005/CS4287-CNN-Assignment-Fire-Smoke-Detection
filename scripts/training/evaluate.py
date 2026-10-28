@@ -21,7 +21,8 @@ from src.config.paths import CSV_DIR, MODEL_DIR, DATASET_DIR
 from src.config.types import ModelParameters, ModelInfo, TrainingObjects
 
 if __name__ == "__main__":
-    model_dir = MODEL_DIR / "20261028_091721"
+    model_dir = MODEL_DIR / "20261028_114248"
+    print(model_dir)
 
     df = pd.read_csv(CSV_DIR / "data/metadata.csv")
     df["boxes"] = df["boxes"].apply(lambda value: parse_boxes(json.loads(value)))
