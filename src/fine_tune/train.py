@@ -268,11 +268,27 @@ class Trainer:
             "epoch": epoch,
             "train_loss": train.avg_loss,
             "val_loss": val.avg_loss,
-            "val_map50": val.map50,
-            "val_map50_95": val.map50_95,
-            "val_map_small": val.map_small,
-            "val_map_medium": val.map_medium,
-            "val_map_large": val.map_large
+            
+            "map50": val.evaluation.map50,
+            "map50_95": val.evaluation.map50_95,
+            "map_small": val.evaluation.map_small,
+            "map_medium": val.evaluation.map_medium,
+            "map_large": val.evalutation.map_large,
+
+            "mar_100": val.evaluation.mar_100,
+            "mar_small": val.evaluation.mar_small,
+            "mar_medium": val.evaluation.mar_medium,
+            "mar_large": val.evalutation.mar_large,
+
+            "recall50": val.evaluation.recall50,
+            "recall50_small": val.evaluation.recall50_small,
+            "recall50_medium": val.evaluation.recall50_medium,
+            "recall50_large": val.evaluation.recall50_large,
+
+            "recall75": val.evaluation.recall75,
+            "recall75_small": val.evaluation.recall75_small,
+            "recall75_medium": val.evaluation.recall75_medium,
+            "recall75_large": val.evaluation.recall75_large,
             }
             for epoch, (train, val) in enumerate(zip(results.history.train, results.history.eval), start=1)
         ]

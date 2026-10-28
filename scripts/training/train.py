@@ -39,7 +39,7 @@ if __name__ == "__main__":
         "num_workers": 8,
         "pin_memory": device.type == "cuda",
         
-        "batch_size": 14,
+        "batch_size": 12,
         "epochs": 50,
         "accumulation_steps": 2,
 

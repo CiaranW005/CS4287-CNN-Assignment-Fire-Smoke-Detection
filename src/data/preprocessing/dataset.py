@@ -77,7 +77,7 @@ class ModelData(Dataset):
             dtype=torch.float32,
         ).reshape(-1, 5)
 
-        img, labels = letterbox(img, labels, size=640)
+        img, labels = letterbox(img, labels, size=768)
 
         img = self.transform(img)
 

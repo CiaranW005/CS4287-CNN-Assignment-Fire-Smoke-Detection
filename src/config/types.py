@@ -46,28 +46,28 @@ class TrainingObjects:
 @dataclass 
 class EvaluationMetrics:
     # set by Trainer.evaluate, computed over the whole split
-    map50: float | None
-    map50_95: float | None 
-    map_per_class: list[float] | None # [smoke, fire] 
+    map50: float
+    map50_95: float 
+    map_per_class: list[float] # [smoke, fire] 
 
-    map_small: float | None 
-    map_medium: float | None
-    map_large: float | None
+    map_small: float 
+    map_medium: float 
+    map_large: float 
 
-    mar_100: float | None
-    mar_small: float | None
-    mar_medium: float | None
-    mar_large: float | None
+    mar_100: float
+    mar_small: float 
+    mar_medium: float 
+    mar_large: float 
 
-    recall50: float | None
-    recall50_small: float | None
-    recall50_medium: float | None
-    recall50_large: float | None
+    recall50: float 
+    recall50_small: float 
+    recall50_medium: float 
+    recall50_large: float 
 
-    recall75: float | None
-    recall75_small: float | None
-    recall75_medium: float | None
-    recall75_large: float | None
+    recall75: float 
+    recall75_small: float 
+    recall75_medium: float 
+    recall75_large: float 
 
 @dataclass
 class EpochHistory:
