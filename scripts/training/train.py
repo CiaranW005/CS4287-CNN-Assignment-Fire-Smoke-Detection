@@ -39,8 +39,8 @@ if __name__ == "__main__":
         "num_workers": 8,
         "pin_memory": device.type == "cuda",
         
-        "batch_size": 8,
-        "epochs": 2,
+        "batch_size": 14,
+        "epochs": 50,
         "accumulation_steps": 2,
 
         "learning_rate": 1e-3,
@@ -159,5 +159,3 @@ if __name__ == "__main__":
 
         if device.type == "cuda":
             torch.cuda.empty_cache()
-
-    

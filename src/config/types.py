@@ -29,7 +29,7 @@ class ModelInfo(TypedDict):
 class TrainingResults:
     history: ModelHistory
     best_state: dict[str, torch.Tensor] | None
-    best_eval_loss: float
+    best_map50_95: float
     best_epoch: int | None
     error: Exception | None = None
 

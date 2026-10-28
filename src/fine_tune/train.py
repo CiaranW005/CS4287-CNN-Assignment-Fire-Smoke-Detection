@@ -131,12 +131,13 @@ class Trainer:
         if epochs == 0:
             raise ValueError("Cannot train model for 0 epochs")
 
-        best_eval_loss = float("inf")
+        best_map50_95 = float("-inf")
         best_epoch = None
         best_state = None
 
         # Window of recent losses to see if there is none/minimal change
         eval_window = deque(maxlen=5)
+        decreased_lr = False
 
         pbar = tqdm(total=epochs, desc="Training")
 
@@ -158,8 +159,8 @@ class Trainer:
 
                 history.append(train_history, eval_history)
                 
-                if eval_loss < best_eval_loss:
-                    best_eval_loss = eval_loss
+                if eval_history.map50_95 and eval_history.map50_95 > best_map50_95:
+                    best_map50_95 = eval_history.map50_95
                     best_epoch = epoch + 1
 
                     # TODO may need to be changed as it keeps the model on VRAM will verify
@@ -172,8 +173,8 @@ class Trainer:
                     f"Gap {abs(eval_loss - train_loss):.4f} | "
                     f"mAP50 {eval_history.map50:.3f} | "
                     f"mAP50-95 {eval_history.map50_95:.3f} | "
-                    f"Train time {train_time} | "
-                    f"Eval time {eval_time} | "
+                    f"Train time {train_time:.2f} | "
+                    f"Eval time {eval_time:.2f} | "
                     f"VRAM usage {vram} | " 
                 )
 
@@ -191,6 +192,17 @@ class Trainer:
                     relative_slope = slope / (abs(window.mean()) + 1e-8)
                     # if it doesnt improve by more than -0.1% stop training
                     if relative_slope > -1e-3:
+                        if not decreased_lr:
+                            for group in self.objs.optimizer.param_groups:
+                                group["lr"] *= 0.5
+
+                            decreased_lr = True
+                            eval_window.clear()
+
+                            tqdm.write(
+                                f"Validation loss plateau detected. Reducing LR to {self.objs.optimizer.param_groups[0]['lr']:.2e}"
+                            )
+                            continue
                         break
 
             if best_state is None or best_epoch is None:
@@ -200,7 +212,7 @@ class Trainer:
             return TrainingResults(
                 history=history,
                 best_state=best_state,
-                best_eval_loss=best_eval_loss,
+                best_map50_95=best_map50_95,
                 best_epoch=best_epoch,
                 error=e
             )
@@ -210,7 +222,7 @@ class Trainer:
         return TrainingResults(
             history=history,
             best_state=best_state,
-            best_eval_loss=best_eval_loss,
+            best_map50_95=best_map50_95,
             best_epoch=best_epoch,
             )
 
@@ -240,5 +252,5 @@ class Trainer:
                 for key, value in results.best_state.items()
             }
             torch.save(cpu_state, EXPER_DIR / "model.pt")
-            print(f"Best Model Saved (val_loss={results.best_eval_loss:.4f}) at epoch {results.best_epoch}")
+            print(f"Best Model Saved (map50_95={results.best_map50_95:.4f}) at epoch {results.best_epoch}")
 
