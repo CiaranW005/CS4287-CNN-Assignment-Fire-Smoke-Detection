@@ -4,6 +4,47 @@ from torch.utils.data import Dataset
 
 from PIL import Image
 
+def letterbox(img, labels, size=640):
+    width, height = img.size
+
+    # Preserve aspect ratio
+    scale = min(size / width, size / height)
+
+    new_width = round(width * scale)
+    new_height = round(height * scale)
+
+    # Resize image
+    img = F.resize(img, [new_height, new_width])
+
+    # Calculate padding
+    pad_left = (size - new_width) // 2
+    pad_top = (size - new_height) // 2
+    pad_right = size - new_width - pad_left
+    pad_bottom = size - new_height - pad_top
+
+    img = F.pad(
+        img,
+        [pad_left, pad_top, pad_right, pad_bottom],
+        fill=114,
+    )
+
+    # Transform normalised YOLO coordinates
+    if labels.numel() > 0:
+        labels = labels.clone()
+
+        labels[:, 1] = (
+            labels[:, 1] * new_width + pad_left
+        ) / size
+
+        labels[:, 2] = (
+            labels[:, 2] * new_height + pad_top
+        ) / size
+
+        labels[:, 3] *= new_width / size
+        labels[:, 4] *= new_height / size
+
+    return img, labels
+
 class ModelData(Dataset):
     def __init__(
             self, 
@@ -29,14 +70,16 @@ class ModelData(Dataset):
         path, boxes = self.data[idx] 
         img = Image.open(self.root / path).convert("RGB")
 
-        img = self.transform(img)
-
         # (N, 5): class, x_center, y_center, width, height (normalised 0-1)
         # reshape keeps images with no boxes as (0,5) instead of (0,)
         labels = torch.tensor(
             [[box.category, *box.coordinates] for box in boxes],
             dtype=torch.float32,
         ).reshape(-1, 5)
+
+        img, labels = letterbox(img, labels, size=640)
+
+        img = self.transform(img)
 
         # Random horizontal flip
         if torch.rand(1).item() < self.flip_prob:

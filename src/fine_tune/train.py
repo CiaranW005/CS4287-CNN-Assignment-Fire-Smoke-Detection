@@ -14,8 +14,10 @@ from torchmetrics.detection import MeanAveragePrecision
 from torchvision.ops import box_convert
 from ultralytics.utils.nms import non_max_suppression
 
-from src.config.types import TrainingObjects, TrainingResults, EpochHistory, ModelHistory
+from src.config.types import TrainingObjects, TrainingResults, EpochHistory, ModelHistory, EvaluationMetrics
 from src.config.paths import MODEL_DIR
+
+from src.utils.get_mean import mean_valid
 
 class Trainer:
     def __init__(self, objs: TrainingObjects):
@@ -71,7 +73,11 @@ class Trainer:
         model.eval()
 
         # COCO-style mAP over the whole split, class_metrics gives fire and smoke separately
-        mean_ap = MeanAveragePrecision(box_format="xyxy", iou_type="bbox", class_metrics=True, max_detection_thresholds=[1, 10, 100])
+        map_metrics = MeanAveragePrecision(
+            box_format="xyxy", iou_type="bbox", 
+            class_metrics=True,  extended_summary=True,
+            max_detection_thresholds=[1, 10, 100]
+        )
 
         history = EpochHistory()
         for imgs, targets in dataloader:
@@ -94,16 +100,36 @@ class Trainer:
                 }
                 for det in detections
             ]
-            mean_ap.update(predictions, self._ground_truth(targets, len(imgs), imgs.shape[-2:]))
+            map_metrics.update(predictions, self._ground_truth(targets, len(imgs), imgs.shape[-2:]))
 
-        results = mean_ap.compute()
-        history.map50 = results["map_50"].item()
-        history.map50_95 = results["map"].item()
-        history.map_per_class = results["map_per_class"].tolist()
-        history.map_small = results["map_small"].item()
-        history.map_medium = results["map_medium"].item()
-        history.map_large = results["map_large"].item()
+        results = map_metrics.compute()
+        recall = results["recall"]
 
+        history.evaluation = EvaluationMetrics(
+            map50 = results["map_50"].item(),
+            map50_95 = results["map"].item(),
+            map_per_class = results["map_per_class"].tolist(),
+
+            map_small = results["map_small"].item(),
+            map_medium = results["map_medium"].item(),
+            map_large = results["map_large"].item(),
+
+            mar_100 = results["mar_100"].item(),
+            mar_small = results["mar_small"].item(),
+            mar_medium = results["mar_medium"].item(),
+            mar_large = results["mar_large"].item(),
+
+            recall50 = mean_valid(recall[0, :, 0, 2]),
+            recall50_small = mean_valid(recall[0, :, 1, 2]),
+            recall50_medium = mean_valid(recall[0, :, 2, 2]),
+            recall50_large = mean_valid(recall[0, :, 3, 2]),
+
+            recall75 = mean_valid(recall[5, :, 0, 2]),
+            recall75_small = mean_valid(recall[5, :, 1, 2]),
+            recall75_medium = mean_valid(recall[5, :, 2, 2]),
+            recall75_large = mean_valid(recall[5, :, 3, 2]),
+        )
+      
         return history
 
     @staticmethod
@@ -162,8 +188,8 @@ class Trainer:
 
                 history.append(train_history, eval_history)
                 
-                if eval_history.map50_95 and eval_history.map50_95 > best_map50_95:
-                    best_map50_95 = eval_history.map50_95
+                if eval_history.evaluation.map50_95 > best_map50_95:
+                    best_map50_95 = eval_history.evaluation.map50_95
                     best_epoch = epoch + 1
 
                     # TODO may need to be changed as it keeps the model on VRAM will verify
@@ -174,8 +200,8 @@ class Trainer:
                     f"Train loss {train_loss:.4f} | "
                     f"Eval loss {eval_loss:.4f} | "
                     f"Gap {abs(eval_loss - train_loss):.4f} | "
-                    f"mAP50 {eval_history.map50:.3f} | "
-                    f"mAP50-95 {eval_history.map50_95:.3f} | "
+                    f"mAP50 {eval_history.evaluation.map50:.3f} | "
+                    f"mAP50-95 {eval_history.evaluation.map50_95:.3f} | "
                     f"Train time {train_time:.2f} | "
                     f"Eval time {eval_time:.2f} | "
                     f"VRAM usage {vram} | " 

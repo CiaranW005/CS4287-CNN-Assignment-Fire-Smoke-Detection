@@ -2,7 +2,6 @@ from torchvision import transforms
 
 # resize only so the normalised box coordinates stay valid
 train_transform = transforms.Compose([
-    transforms.Resize((640, 640)),
     transforms.ColorJitter(
         brightness=0.2,
         contrast=0.2,
@@ -18,7 +17,6 @@ train_transform = transforms.Compose([
 ])
 
 eval_transform = transforms.Compose([
-    transforms.Resize((640, 640)),
     transforms.ToTensor(),
     transforms.Normalize(
         mean=[0.485, 0.456, 0.406],

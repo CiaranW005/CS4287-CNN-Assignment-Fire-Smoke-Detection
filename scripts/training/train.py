@@ -16,7 +16,7 @@ from src.fine_tune import Trainer, HybridModel
 from src.fine_tune.losses import YOLOLoss
 from src.data.preprocessing import ModelData, train_transform, eval_transform
 
-from src.utils import get_device, parse_boxes, collate_fn
+from src.utils import get_device, parse_boxes, collate_fn, print_evaluation
 from src.config.paths import CSV_DIR, MODEL_DIR, DATASET_DIR
 from src.config.types import ModelParameters, ModelInfo, TrainingObjects
 
@@ -74,7 +74,7 @@ if __name__ == "__main__":
     train_dataset = ModelData(
         DATASET_DIR, train_data, train_transform, 
         flip_prob=0.0,
-        zoom_prob=0.5, zoom_max=1.3
+        zoom_prob=0.0, zoom_max=1.3
         )
     
     val_dataset = ModelData(DATASET_DIR, val_data, eval_transform)
@@ -147,14 +147,7 @@ if __name__ == "__main__":
         if results.best_state is not None:
             training_objs.model.load_state_dict(results.best_state)
             test_history = trainer.evaluate(test_loader)
-            print(
-                f"Test mAP50 {test_history.map50:.3f} | "
-                f"mAP50-95 {test_history.map50_95:.3f} | "
-                f"per class [smoke, fire] {test_history.map_per_class}",
-                f"map_small {test_history.map_small:.3f} | ",
-                f"map_medium {test_history.map_medium:.3f} | ",
-                f"map_large {test_history.map_large:.3f} | "
-            )
+            print_evaluation(test_history)
 
             trainer.save_results(
                 results,
