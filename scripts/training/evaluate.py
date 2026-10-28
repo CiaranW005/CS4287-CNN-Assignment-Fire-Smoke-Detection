@@ -16,7 +16,7 @@ from src.fine_tune import Trainer, HybridModel
 from src.fine_tune.losses import YOLOLoss
 from src.data.preprocessing import ModelData, train_transform, eval_transform
 
-from src.utils import get_device, parse_boxes, collate_fn
+from src.utils import get_device, parse_boxes, collate_fn, print_evaluation
 from src.config.paths import CSV_DIR, MODEL_DIR, DATASET_DIR
 from src.config.types import ModelParameters, ModelInfo, TrainingObjects
 
@@ -75,14 +75,7 @@ if __name__ == "__main__":
 
     try:        
         test_history = trainer.evaluate(test_loader)
-        print(
-            f"Test mAP50 {test_history.map50:.3f} | "
-            f"mAP50-95 {test_history.map50_95:.3f} | "
-            f"per class [smoke, fire] {test_history.map_per_class} | ",
-            f"map_small {test_history.map_small:.3f} | ",
-            f"map_medium {test_history.map_medium:.3f} | ",
-            f"map_large {test_history.map_large:.3f} | "
-        )
+        print_evaluation(test_history)
     finally:
         del trainer
         gc.collect()

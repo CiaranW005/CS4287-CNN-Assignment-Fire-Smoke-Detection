@@ -43,18 +43,38 @@ class TrainingObjects:
     accumulation_steps: int
     scaler: torch.amp.GradScaler
 
+@dataclass 
+class EvaluationMetrics:
+    # set by Trainer.evaluate, computed over the whole split
+    map50: float | None
+    map50_95: float | None 
+    map_per_class: list[float] | None # [smoke, fire] 
+
+    map_small: float | None 
+    map_medium: float | None
+    map_large: float | None
+
+    mar_100: float | None
+    mar_small: float | None
+    mar_medium: float | None
+    mar_large: float | None
+
+    recall50: float | None
+    recall50_small: float | None
+    recall50_medium: float | None
+    recall50_large: float | None
+
+    recall75: float | None
+    recall75_small: float | None
+    recall75_medium: float | None
+    recall75_large: float | None
+
 @dataclass
 class EpochHistory:
     losses: list[float] = field(default_factory=list)
     metrics: list[float]  = field(default_factory=list)
 
-    # set by Trainer.evaluate, computed over the whole split
-    map50: float | None = None
-    map50_95: float | None = None
-    map_per_class: list[float] | None = None # [smoke, fire] 
-    map_small: float | None = None
-    map_medium: float | None = None
-    map_large: float | None = None
+    evaluation: EvaluationMetrics | None = None
 
     def append(self, loss, metrics):
         self.losses.append(loss)
