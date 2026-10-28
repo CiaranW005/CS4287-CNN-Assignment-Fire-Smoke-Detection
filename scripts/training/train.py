@@ -145,7 +145,10 @@ if __name__ == "__main__":
             print(
                 f"Test mAP50 {test_history.map50:.3f} | "
                 f"mAP50-95 {test_history.map50_95:.3f} | "
-                f"per class [smoke, fire] {test_history.map_per_class}"
+                f"per class [smoke, fire] {test_history.map_per_class}",
+                f"map_small {test_history.map_small:.3f} | ",
+                f"map_medium {test_history.map_medium:.3f} | ",
+                f"map_large {test_history.map_large:.3f} | "
             )
 
             trainer.save_results(

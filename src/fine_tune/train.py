@@ -71,7 +71,7 @@ class Trainer:
         model.eval()
 
         # COCO-style mAP over the whole split, class_metrics gives fire and smoke separately
-        mean_ap = MeanAveragePrecision(box_format="xyxy", iou_type="bbox", class_metrics=True)
+        mean_ap = MeanAveragePrecision(box_format="xyxy", iou_type="bbox", class_metrics=True, max_detection_thresholds=[1, 10, 100])
 
         history = EpochHistory()
         for imgs, targets in dataloader:
@@ -84,7 +84,7 @@ class Trainer:
             history.append(loss.item(), metrics)
 
             # same thresholds Ultralytics validates with, low conf keeps every recall level
-            detections = non_max_suppression(outputs, conf_thres=0.001, iou_thres=0.7)
+            detections = non_max_suppression(outputs, conf_thres=0.001, iou_thres=0.7, max_det=300)
 
             predictions = [
                 {
@@ -100,6 +100,9 @@ class Trainer:
         history.map50 = results["map_50"].item()
         history.map50_95 = results["map"].item()
         history.map_per_class = results["map_per_class"].tolist()
+        history.map_small = results["map_small"].item()
+        history.map_medium = results["map_medium"].item()
+        history.map_large = results["map_large"].item()
 
         return history
 
@@ -241,6 +244,9 @@ class Trainer:
             "val_loss": val.avg_loss,
             "val_map50": val.map50,
             "val_map50_95": val.map50_95,
+            "val_map_small": val.map_small,
+            "val_map_medium": val.map_medium,
+            "val_map_large": val.map_large
             }
             for epoch, (train, val) in enumerate(zip(results.history.train, results.history.eval), start=1)
         ]

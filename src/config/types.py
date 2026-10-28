@@ -37,7 +37,7 @@ class TrainingResults:
 class TrainingObjects:
     model: torch.nn.Module
     criterion: Callable
-    optimizer: torch.optim.Optimizer
+    optimizer: torch.optim.Optimizer 
     device: torch.device
 
     accumulation_steps: int
@@ -52,6 +52,9 @@ class EpochHistory:
     map50: float | None = None
     map50_95: float | None = None
     map_per_class: list[float] | None = None # [smoke, fire] 
+    map_small: float | None = None
+    map_medium: float | None = None
+    map_large: float | None = None
 
     def append(self, loss, metrics):
         self.losses.append(loss)
