@@ -43,6 +43,8 @@ class TrainingObjects:
     accumulation_steps: int
     scaler: torch.amp.GradScaler
 
+    scheduler: torch.optim.lr_scheduler.LambdaLR | None = None # LambdaLR ensures consistent changes across different learning rates
+
 @dataclass 
 class EvaluationMetrics:
     # set by Trainer.evaluate, computed over the whole split

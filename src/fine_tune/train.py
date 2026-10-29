@@ -1,4 +1,5 @@
 import torch
+from torch.optim.lr_scheduler import LambdaLR
 
 import numpy as np
 import pandas as pd
@@ -17,7 +18,7 @@ from ultralytics.utils.nms import non_max_suppression
 from src.config.types import TrainingObjects, TrainingResults, EpochHistory, ModelHistory, EvaluationMetrics
 from src.config.paths import MODEL_DIR
 
-from src.utils.get_mean import mean_valid
+from src.utils import cosine_decay, mean_valid
 
 class Trainer:
     def __init__(self, objs: TrainingObjects):
@@ -30,6 +31,7 @@ class Trainer:
         device = self.objs.device
         accum_steps = self.objs.accumulation_steps
         scaler = self.objs.scaler
+        scheduler = self.objs.scheduler
 
         model.train()
 
@@ -58,6 +60,9 @@ class Trainer:
                 optimizer.zero_grad()
 
             history.append(loss.item(), metrics)
+
+        if scheduler is not None:
+            scheduler.step()
         
         return history
 
@@ -228,6 +233,7 @@ class Trainer:
                             decreased_lr = True
                             eval_window.clear()
 
+                            self.objs.scheduler = LambdaLR(self.objs.optimizer, lr_lambda=cosine_decay) 
                             tqdm.write(
                                 f"Validation loss plateau detected. Reducing LR to {self.objs.optimizer.param_groups[0]['lr']:.2e}"
                             )
@@ -273,12 +279,12 @@ class Trainer:
             "map50_95": val.evaluation.map50_95,
             "map_small": val.evaluation.map_small,
             "map_medium": val.evaluation.map_medium,
-            "map_large": val.evalutation.map_large,
+            "map_large": val.evaluation.map_large,
 
             "mar_100": val.evaluation.mar_100,
             "mar_small": val.evaluation.mar_small,
             "mar_medium": val.evaluation.mar_medium,
-            "mar_large": val.evalutation.mar_large,
+            "mar_large": val.evaluation.mar_large,
 
             "recall50": val.evaluation.recall50,
             "recall50_small": val.evaluation.recall50_small,
