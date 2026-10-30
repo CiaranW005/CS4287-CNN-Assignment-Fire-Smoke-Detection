@@ -1,5 +1,19 @@
 == Transfer Learning
 
-Our ResNet-50 backbone uses pretraiend weights, coming from torchvision's ResNet-50 ImageNet-1K V2. These were trained to classify 1.28 million images into 1,000 classes so our backbone already has knowledge of general features such as edges, texture and shapes. To preserve the pretrained features of the backbone we use a learning rate that is 10 times smaller than the rest of the hybrid model. 
+Our ResNet-50 backbone is initialised with torchvision's 'IMAGENET1K_V2' weights, which were trained to classfiy the 1.28 million images of ImageNet into 1,000 classes. The backbone therefore already encodes general visual features such as edges, textures and shapes. Because our model only uses the backbone as a feature extractor, the final fully-connected classification layer is left out and only the stem and the four residual stages are used.
 
-Our YOLOv8 neck and head borrow only the architecture of a YOLO model and uses random weight initialisation, therefore it is trained from scratch.
+#figure(
+  table(
+    columns: 3,
+    [*Component*], [*Initialisation*], [*Learning rate*],
+    [ResNet-50 stem + stages 1–4], [ImageNet-1K V2], [$0.1 times eta$],
+    [1×1 adapter convolutions], [Random], [$eta$],
+    [YOLOv8 neck (FPN + PAN)], [Random], [$eta$],
+    [YOLOv8 detection head], [Random], [$eta$],
+  ),
+  caption: [Initial learning rate of each component.],
+) <tab:transfer_learning>
+
+No layers of our model are frozen. We opted to instead train the model on a differential learning rate that applies a learning rate 10 times smaller than the rest of the model to only the backbone. This prevents the model from losing the feature knowledge it had already developed from training on ImageNet.
+
+The $1 times 1$ adapter convolutions, the YOLOv8 neck and head all borrow only the YOLOv8 architecture and have randomly initialised weights, therefore they are trained from scratch at a full learning rate.
