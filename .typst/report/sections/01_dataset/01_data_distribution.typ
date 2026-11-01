@@ -40,8 +40,8 @@ As mentioned in the discussion around @fig:class_distribution there could be a p
 
 This is not a huge difference and there is no reason to try and enforce this to an exact 50-50 split. Such changes could cause a loss of valuable samples and reduce the variety of contexts represented within the dataset.
 
-//TODO give this a title
+//TODO give this a title, maybe make it side by side too as the one plot on its own looks weird
 #figure(
-  image("../../../../results/plots/data_analysis/label_distribution.svg", width: 80%),
+  image("../../../../results/plots/data_analysis/label_distribution.svg", width: 50%),
   caption: [Fire vs Smoke box annotations]
 ) <fig:fire_vs_smoke>
