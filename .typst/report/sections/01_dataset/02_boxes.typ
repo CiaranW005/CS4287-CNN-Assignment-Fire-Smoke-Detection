@@ -2,6 +2,7 @@
 
 This section examines the distribution and validity of bounding-box annotations throughout the dataset, including their spatial locations and the proportion of each image occupied by an average bounding box. An important part of this analysis is identifying invalid annotations, such as bounding boxes with zero area or coordinates extending beyond the image boundaries. These errors must be addressed to ensure that the annotations provide meaningful information during model training.
 
+=== Annotation Validation and Cleaning <sect:box_cleaning>
 The analysis identified 18 bounding boxes with zero area. Examples of these annotations are shown in @fig:error_examples. Since these boxes contain no spatial information about the annotated objects and appear to result from annotation errors, they were removed from the dataset to prevent potential issues during model training.
 
 Additionally, 379 bounding boxes across 322 images were found to extend beyond the image boundaries. These annotations were corrected by clipping their coordinates to the valid image boundaries and recalculating their centres and dimensions. This ensures that the bounding boxes represent only regions within the image, preventing the model from learning invalid spatial coordinates. 
@@ -21,24 +22,24 @@ Additionally, 379 bounding boxes across 322 images were found to extend beyond t
   caption: [Examples of images with invalid bounding-boxes (area=0)]
 ) <fig:error_examples>
 
+=== Distribution of Bounding Boxes <sect:bound_boxes>
 
-The distribution of bounding-box areas is heavily right-skewed, as shown in @fig:box_areas. The interquartile range indicates that the middle 50% of bounding boxes occupy between approximately 0% and 17.5% of their respective images. This is an important consideration during preprocessing, as reducing image resolution could result in already small annotated regions containing very little visual information, potentially making them more difficult for the model to detect.
+The distribution of bounding-box areas is heavily right-skewed, as shown in @fig:box_areas, with a high probability density for bounding boxes occupying a small proportion of their respective images. This density decreases rapidly as bounding-box area increases, although a long tail extends towards annotations occupying nearly the entire image. The probability density represents the concentration of bounding-box areas, where the area under the curve over a given interval represents the probability of an annotation falling within that range.
 
-Further analysis by category in @fig:fire_smoke_areas reveals substantial differences between fire and smoke annotations. Fire bounding boxes tend to be considerably smaller, with the middle 50% occupying approximately 0-2% of the image area. In contrast, smoke bounding boxes are generally larger, with the middle 50% covering approximately 2-38% of the image area. Although both categories contain some exceptionally large bounding boxes, their typical spatial coverage differs significantly.
+This is an important consideration during preprocessing, as reducing image resolution could result in already small annotated regions containing very little visual information, potentially making them more difficult for the model to detect.
+
+Further analysis by category in @fig:fire_smoke_areas reveals substantial differences between fire and smoke annotations. Fire bounding boxes are heavily concentrated towards the lower end of the distribution, with a sharp peak near zero and a rapid decrease in density as the bounding-box area increases. In contrast, smoke bounding boxes have a much broader distribution, with a lower peak and a gradual decrease in density across a wider range of areas. Although both categories contain some exceptionally large bounding boxes, the majority of fire annotations occupy substantially smaller proportions of their images compared with smoke annotations.
 
 These findings suggest that bounding-box size may influence detection performance, particularly for smaller fire annotations. During model evaluation, detection performance should therefore be examined across different bounding-box sizes to determine whether smaller objects are disproportionately difficult to detect and whether image preprocessing contributes to this limitation.
 
-// FIXME might change this from bounding boxes to distribution plots
 #figure(
-  image("../../../../results/plots/data_analysis/box_plot_areas.svg"),
-  caption: [Box plot distribution of bounding-box area]
+  image("../../../../results/plots/data_analysis/box_area_distribution.svg", width: 85%),
+  caption: [Kernel density estimation of relative bounding-box areas across the dataset.]
 ) <fig:box_areas>
 
 #figure(
-  image(
-    "../../../../results/plots/data_analysis/box_plot_fire_vs_smoke_area.svg"
-  ),
-  caption: [Box plots of Fire and Smoke area distributions]
+  image("../../../../results/plots/data_analysis/fire_vs_smoke_area_distribution.svg", width: 85%),
+  caption: [Kernel density estimation of relative bounding-box areas for fire and smoke annotations.]
 ) <fig:fire_smoke_areas>
 
 Finally, the distribution of bounding-box areas across the training, validation, and test splits was examined to determine whether each subset contains a representative range of bounding-box sizes. As shown in @fig:area_box_split, the distributions are broadly consistent across all three splits. Outliers were excluded from the visualisation to improve readability, allowing the general trends to be compared more clearly despite differences in the number of images in each split.

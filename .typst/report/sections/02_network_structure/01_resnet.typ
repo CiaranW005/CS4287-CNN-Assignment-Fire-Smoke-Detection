@@ -13,8 +13,8 @@ The four stages have 3, 4, 6 and 3 blocks. The first block in each stage uses a 
   table(
     columns: 4,
     [*Layer*], [*Blocks*], [*Output ($C times H times W$)*], [*Stride*],
-    [Input], [–], [$3 times 768 times 768$], [1],
-    [Stem], [–], [$64 times 192 times 192$], [4],
+    [Input], [--], [$3 times 768 times 768$], [1],
+    [Stem], [--], [$64 times 192 times 192$], [4],
     [Stage 1], [3], [$256 times 192 times 192$], [4],
     [Stage 2 ($C_3$)], [4], [$512 times 96 times 96$], [8],
     [Stage 3 ($C_4$)], [6], [$1024 times 48 times 48$], [16],

@@ -42,11 +42,11 @@ Use the sections below in order. The marked sections total 15 marks. The stateme
 
 **What needs to be done:** explain the data, visualise its important characteristics, and describe its preparation.
 
-- [ ] Identify and cite the dataset; explain the task, inputs, and target labels.
-- [ ] Visualise key attributes.
-- [ ] Discuss data correlation and feature engineering if applicable.
-- [ ] Explain preprocessing, including any normalisation.
-- [ ] Address the rubric's expectations: representativeness, inherent biases, data quality, cleaning, and augmentation where required.
+- [x] Identify and cite the dataset; explain the task, inputs, and target labels.
+- [x] Visualise key attributes.
+- [x] Discuss data correlation and feature engineering if applicable.
+- [x] Explain preprocessing, including any normalisation.
+- [x] Address the rubric's expectations: representativeness, inherent biases, data quality, cleaning, and augmentation where required.
 
 ### 4. Network structure and hyperparameters - 3 marks
 
@@ -58,7 +58,7 @@ Use the sections below in order. The marked sections total 15 marks. The stateme
 - [ ] Explain weight initialisation and activation functions.
 - [ ] Explain batch normalisation and regularisation, including whether and why they are used.
 - [ ] Record the hyperparameters used.
-- [ ] Describe transfer learning if used, including pretrained sources and what is frozen or trained.
+- [x] Describe transfer learning if used, including pretrained sources and what is frozen or trained.
 - [ ] Explain the architecture's distinguishing features. If using ResNet, include the required paragraphs on residual learning.
 
 ### 5. Loss function, optimiser, and cross-fold validation - 2 marks
