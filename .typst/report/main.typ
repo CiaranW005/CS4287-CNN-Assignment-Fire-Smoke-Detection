@@ -16,3 +16,10 @@
 #pagebreak()
 
 #bibliography("refs.bib")
+
+#bibliography(
+  "code_refs.bib",
+  title: [Code Sources],
+  full: true,
+  style: "ieee",
+)

@@ -1,5 +1,39 @@
 = Generative AI Use
 
+*Ciaran Whelan (23370211)*
+
+#figure(
+  table(
+    columns: (1fr, 1fr, 1.5fr),
+    table.header(
+      [*Complete prompt*],
+      [*One-line response summary*],
+      [*How it was used in the submission*],
+    ),
+
+    [How do I expand a dictionary stored in a single CSV cell?],
+    [Explained how to convert a dictionary stored as a string into a Python dictionary.],
+    [Used to process and extract evaluation metrics stored within CSV files for analysis and visualisation.],
+
+    [Summarise the contributions of these papers to fire detection, highlight architectural differences, and return mAP50-95 results or equivalent metrics for comparison.],
+    [Summarised the papers' architectures, reported detection performance],
+    [Used to support the literature comparison section and identify architectural differences between our model and existing fire detection models.],
+
+    [Generate BibTeX references for these websites: [...]],
+    [Generated BibTeX entries containing publication information and source URLs.],
+    [Used to create bibliography entries for documentation, tutorials and external code references consulted during development.],
+
+    [How do I convert pretrained PyTorch weights to my own custom architecture?],
+    [Explained how pretrained model weights can be loaded into compatible layers of a custom architecture.],
+    [Used to guide the implementation of the pretrained ResNet backbone within our hybrid detection model.],
+
+    [How do I calculate recall similarly to how MeanAveragePrecision is used?],
+    [Explained how recall can be extracted from TorchMetrics evaluation results at different IoU thresholds and object sizes.],
+    [Used to implement additional recall metrics for analysing detection performance across object sizes and IoU thresholds.],
+  ),
+  caption: [Ciaran's generative AI prompts, responses and how they were used.],
+) 
+
 *Emma O'Reilly (23304472)*
 
 Generative AI tools were used sparsely throughout the project, primarily for explanations, troubleshooting and debugging. 
