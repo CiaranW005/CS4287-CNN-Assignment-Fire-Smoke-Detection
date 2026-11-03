@@ -1,5 +1,3 @@
-// TODO Format the colours of distirbutions so theyre the same across distirbutions
-
 ==  Sample Distribution
 
 This section examines the overall composition of the dataset in terms of its train/val/test split and the proportion of samples within each split and the number of bounding boxes for each category, fire (1) and smoke (0). The distributions help see whether there are any class biases within the dataset and if any stratification or changes are need to balance out the subsets. This is important for identifying potential class imbalances that could bias the model towards more frequently represented classes, reducing its ability to detect underrepresented categories.
@@ -28,7 +26,6 @@ The next stage now looks at how do are these annotations distributed across the 
 
 However, in the actual data shown in @fig:image_distirbution_split this is not a problem as each split maintains across all three splits, which is distributed to; Both(\~20%), Smoke-only(\~30%), Fire-only(\~5%), None(\~45%). This suggests that the predefined splits are well-balanced relative to the overall dataset composition, but will need to be kept in mind for cross-fold validation to maintain these compositions.
 
-// TODO fix cutoff of the image, also make the image wider and less boxy
 #figure(
   image("../../../../results/plots/data_analysis/category_distribution_by_split.svg", width: 55%),
   caption: [
@@ -36,12 +33,20 @@ However, in the actual data shown in @fig:image_distirbution_split this is not a
   ]
 ) <fig:image_distirbution_split>
 
-As mentioned in the discussion around @fig:class_distribution there could be a problem with the distribution of fire and smoke annotations. However, @fig:fire_vs_smoke reveals the opposite of this trend is true where there tends to be more fire annotations (55.3%) compared to smoke (44.7%). This indicates that although smoke appears in more images, fire is annotated more frequently overall. 
+#grid(
+  columns: (1fr, 1fr),
 
-This is not a huge difference and there is no reason to try and enforce this to an exact 50-50 split. Such changes could cause a loss of valuable samples and reduce the variety of contexts represented within the dataset.
+  [
+    As mentioned in the discussion around @fig:class_distribution there could be a problem with the distribution of fire and smoke annotations. However, @fig:fire_vs_smoke reveals the opposite of this trend is true where there tends to be more fire annotations (55.3%) compared to smoke (44.7%). This indicates that although smoke appears in more images, fire is annotated more frequently overall. 
 
-//TODO give this a title, maybe make it side by side too as the one plot on its own looks weird
-#figure(
-  image("../../../../results/plots/data_analysis/label_distribution.svg", width: 50%),
-  caption: [Fire vs Smoke box annotations]
-) <fig:fire_vs_smoke>
+    This is not a huge difference and there is no reason to try and enforce this to an exact 50-50 split. Such changes could cause a loss of valuable samples and reduce the variety of contexts represented within the dataset.
+  ],
+
+  [
+    #figure(
+    image("../../../../results/plots/data_analysis/label_distribution.svg", width: 80%),
+    caption: [Fire vs Smoke box annotations]
+  ) <fig:fire_vs_smoke>
+  ]
+)
+

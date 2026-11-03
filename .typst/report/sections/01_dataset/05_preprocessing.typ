@@ -1,11 +1,9 @@
 = Preprocessing
 
-//TODO references
-From both the [reference EDA] and experimentation we decided on this preprocessing pipeline for our data. The data was cleaned for any mistakes in labelling discussed in [EDA reference to bounding boxes]
+From both the @sect:eda and experimentation we decided on this preprocessing pipeline for our data. The data was cleaned for any mistakes in labelling discussed in @sect:box_cleaning
 
-// TODO get source
 == Resizing and Letterboxing
-Letterboxing is a technique recommended by Ultralytics as it helps maintain the aspect ratios and proportions of objects when images are resized. This introduces padding around images when their aspect ratios differ from the designated input dimensions. One potential problem is that smaller objects may lose further visual information during down scaling, particularly when their dimensions are already small. However, experimenting with and without letterboxing showed improvements in small-object detection, despite some reductions in overall model performance. Therefore, we decided to use letterboxing and resize all images to a fixed resolution of $768 times 768$.
+Letterboxing is a technique recommended by Ultralytics@ultralytics_preprocessing as it helps maintain the aspect ratios and proportions of objects when images are resized. This introduces padding around images when their aspect ratios differ from the designated input dimensions. One potential problem is that smaller objects may lose further visual information during down scaling, particularly when their dimensions are already small. However, experimenting with and without letterboxing showed improvements in small-object detection, despite some reductions in overall model performance. Therefore, we decided to use letterboxing and resize all images to a fixed resolution of $768 times 768$.
 
 == ColourJitter
 We randomly augment the brightness, contrast, saturation and hue of images using torchvision's ColourJitter within the training set. This introduces variations in image properties during training, allowing the model to generalise better across different lighting conditions and environments. The selected values determine the range from which the augmentation factors are randomly sampled.
@@ -17,11 +15,11 @@ We randomly augment the brightness, contrast, saturation and hue of images using
 - *Saturation = 0.2 [0.8, 1.2]:* Randomly adjusts the intensity of colours within an image. This helps account for differences in camera characteristics and environmental conditions, particularly where fire and smoke may appear with different colour intensities.
 
 //TODO get source for this
-- *Hue = 0.015 [-0.015, 0.015]:* Randomly shifts the hue within torchvision's normalised hue range. This value is the default hue augmentation parameter used by Ultralytics YOLO. The relatively small adjustment helps preserve the general colours of fire and smoke while introducing some colour variation.
+- *Hue = 0.015 [-0.015, 0.015]:* Randomly shifts the hue within torchvision's normalised hue range. This value is the default hue augmentation parameter used by Ultralytics YOLO @ultralytics_augmentation. The relatively small adjustment helps preserve the general colours of fire and smoke while introducing some colour variation.
 
 == Normalisation
 
-The images are then normalised using the standard RGB channel statistics from ImageNet, which is the dataset used to pretrain our ResNet backbone. The mean values for these channels are [0.485, 0.456, 0.406], with standard deviations of [0.229, 0.224, 0.225], respectively. Normalising using these values helps maintain consistency with the input distribution used during pretraining, allowing the model to make better use of its pretrained weights rather than having to adapt to an entirely different input scale.
+The images are then normalised using the standard RGB channel statistics from ImageNet, which is the dataset used to pretrain our ResNet backbone. The mean values for these channels are [0.485, 0.456, 0.406], with standard deviations of [0.229, 0.224, 0.225] @torchvision_resnet, respectively. Normalising using these values helps maintain consistency with the input distribution used during pretraining, allowing the model to make better use of its pretrained weights rather than having to adapt to an entirely different input scale.
 
 == Random Augmentations
 
@@ -30,4 +28,4 @@ Two random augmentations introduced into our pipeline to help improve the genera
 // TODO @emmao1024 do you have that bounding box image thing where they were localised to add about this
 - *Horizontal Flips (p = 50%)* - This augmentation randomly flips images horizontally, helping prevent the model from becoming overly reliant on the horizontal positioning of objects and backgrounds. As discussed in [EDA], this encourages the model to recognise fire and smoke under different spatial arrangements rather than associating them with particular sides of an image.
 
-- *Random Zoom-ins (p = 50%)* - As discussed in [EDA reference to fire boxes], fire bounding boxes generally occupied a very small proportion of their images. To help address this, random zoom-ins were introduced to increase the apparent size of smaller annotations during training, potentially making them easier for the model to learn from. The maximum zoom-in factor was 30%, bounding boxes were clipped or removed if they were no longer in this new image.
+- *Random Zoom-ins (p = 50%)* - As discussed in @sect:bound_boxes, fire bounding boxes generally occupied a very small proportion of their images. To help address this, random zoom-ins were introduced to increase the apparent size of smaller annotations during training, potentially making them easier for the model to learn from. The maximum zoom-in factor was 30%, bounding boxes were clipped or removed if they were no longer in this new image.

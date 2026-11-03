@@ -1,3 +1,4 @@
+#set heading(numbering: "1.1")
 
 #include "sections/00_overview/title.typ"
 
