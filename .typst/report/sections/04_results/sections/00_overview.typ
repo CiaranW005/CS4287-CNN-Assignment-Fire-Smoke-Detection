@@ -1,1 +1,3 @@
 = Results
+
+This section evaluates the performance of our model on the test set and compares its results with those reported in the literature using similar datasets and detection architectures. Finally, it investigates the presence of near-duplicate images across the dataset splits and examines how this overlap affects the reported evaluation metrics and the reliability of the model's measured generalisation performance.
