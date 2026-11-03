@@ -1,3 +1,5 @@
+#pagebreak()
+
 = Generative AI Use
 
 *Ciaran Whelan (23370211)*
@@ -38,6 +40,8 @@
   caption: [Ciaran's generative AI prompts, responses and how they were used.],
 ) 
 
+#pagebreak()
+
 *Emma O'Reilly (23304472)*
 
 Generative AI tools were used sparsely throughout the project, primarily for explanations, troubleshooting and debugging. 
@@ -53,6 +57,7 @@ The list below outlines all prompts used, along with the responses generated:
   caption: [Generative AI prompts, responses and how they were used.],
 ) <tab:genai_use>
 
+#pagebreak()
 *Hersh Singh (23371137)*
 
 I used GenAI for my parts of the project. These are the main prompts I used; a full log of every prompt is available on request.
