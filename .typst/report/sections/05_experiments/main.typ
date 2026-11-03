@@ -7,3 +7,4 @@
 #include "sections/05_cosine_annealing.typ"
 #include "sections/06_random_zoom_ins.typ"
 #include "sections/07_combined.typ"
+#include "sections/08_hyperparameter_tuning.typ"
