@@ -75,12 +75,12 @@ Use the sections below in order. The marked sections total 15 marks. The stateme
 
 **What needs to be done:** present measured results and explain what they reveal about the model.
 
-- [ ] Include plots.
-- [ ] Calculate accuracy and/or precision and/or recall, as appropriate to the task.
-- [ ] Explain the numerical results and plots.
-- [ ] Check for overfitting and underfitting.
-- [ ] Connect performance to the model and hyperparameter choices.
-- [ ] Calculate additional relevant metrics rather than only discussing them, as expected in the stronger rubric bands.
+- [x] Include plots.
+- [x] Calculate accuracy and/or precision and/or recall, as appropriate to the task.
+- [x] Explain the numerical results and plots.
+- [x] Check for overfitting and underfitting.
+- [x] Connect performance to the model and hyperparameter choices.
+- [x] Calculate additional relevant metrics rather than only discussing them, as expected in the stronger rubric bands.
 
 ### 7. Independent experimental work — 3 marks
 
