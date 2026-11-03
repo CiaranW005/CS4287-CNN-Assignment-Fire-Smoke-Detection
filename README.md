@@ -152,15 +152,15 @@ Suggested log format:
 - [x] First line: a comment containing team names and IDs.
 - [x] Second line: a comment stating whether the code executes to the end without an error.
 - [x] Third line: a comment linking to the third-party source if an existing implementation was reused.
-- [ ] Have the team comment every critical line of code to demonstrate deep understanding. Comments may refer to PDF sections.
+- [x] Have the team comment every critical line of code to demonstrate deep understanding. Comments may refer to PDF sections.
 - [x] Verify execution to the end without an error.
 
 ## Final submission checklist
 
-- [ ] PDF contains all required sections with readable figures, tables, and references.
-- [ ] Notebook filename and opening comments match the confirmed requirements.
-- [ ] Notebook executes fully and critical code has team-written explanations.
-- [ ] Report results match the submitted code and experiments.
-- [ ] Sources, reused material, AI prompts, and individual contributions are disclosed.
-- [ ] Every member can explain the submission.
-- [ ] Submit the PDF and notebook through Brightspace before the deadline.
+- [x] PDF contains all required sections with readable figures, tables, and references.
+- [x] Notebook filename and opening comments match the confirmed requirements.
+- [x] Notebook executes fully and critical code has team-written explanations.
+- [x] Report results match the submitted code and experiments.
+- [x] Sources, reused material, AI prompts, and individual contributions are disclosed.
+- [x] Every member can explain the submission.
+- [x] Submit the PDF and notebook through Brightspace before the deadline.
