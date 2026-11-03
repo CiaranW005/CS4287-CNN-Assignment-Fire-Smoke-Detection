@@ -69,7 +69,7 @@ Use the sections below in order. The marked sections total 15 marks. The stateme
 - [ ] Discuss relevant alternative loss functions rather than naming a choice without explanation.
 - [ ] Identify and explain the optimiser; justify the choice against alternatives.
 - [x] Carry out and describe cross-fold validation, including the number of folds and data allocation.
-- [ ] Explain how models are compared and how a development set is used; these appear in the rubric's higher-band expectations.
+- [x] Explain how models are compared and how a development set is used; these appear in the rubric's higher-band expectations.
 
 ### 6. Results and evaluation — 3 marks
 
@@ -105,8 +105,8 @@ Use the sections below in order. The marked sections total 15 marks. The stateme
 | Inception, VGG, or ResNet | 1.5 |
 | YOLO, Fast R-CNN, U-Net, or other | 2 |
 
-- [ ] Explain technical difficulty, original work, and layer-by-layer implementation where applicable.
-- [ ] Treat the table as guidance: the teaching team determines the actual difficulty mark.
+- [x] Explain technical difficulty, original work, and layer-by-layer implementation where applicable.
+- [x] Treat the table as guidance: the teaching team determines the actual difficulty mark.
 
 ### 9. Statement of work — Pass/Fail
 
@@ -138,22 +138,22 @@ Suggested log format:
 
 **What needs to be done:** acknowledge all external material and show what the team added.
 
-- [ ] Cite the dataset, architecture sources, reused code, and other external material.
-- [ ] Follow the plagiarism-prevention guidance in UL's *Cite it Right*, referenced in the brief.
-- [ ] Clearly distinguish sourced content from new work.
-- [ ] Demonstrate deep understanding of reused projects, repository code, and LLM outputs.
-- [ ] Demonstrate added value when reusing material; the brief gives using a different dataset as an example.
+- [x] Cite the dataset, architecture sources, reused code, and other external material.
+- [x] Follow the plagiarism-prevention guidance in UL's *Cite it Right*, referenced in the brief.
+- [x] Clearly distinguish sourced content from new work.
+- [x] Demonstrate deep understanding of reused projects, repository code, and LLM outputs.
+- [x] Demonstrate added value when reusing material; the brief gives using a different dataset as an example.
 
 ## Jupyter notebook requirements
 
 **What needs to be done:** submit working Python code with explanations demonstrating the team's understanding.
 
-- [ ] Use the filename specified in the brief: `CS4287-Assign2-ID1-ID2-ID3.ipynb`, replacing the IDs with team student numbers. See the ambiguity below.
-- [ ] First line: a comment containing team names and IDs.
-- [ ] Second line: a comment stating whether the code executes to the end without an error.
-- [ ] Third line: a comment linking to the third-party source if an existing implementation was reused.
+- [x] Use the filename specified in the brief: `CS4287-Assign2-ID1-ID2-ID3.ipynb`, replacing the IDs with team student numbers. See the ambiguity below.
+- [x] First line: a comment containing team names and IDs.
+- [x] Second line: a comment stating whether the code executes to the end without an error.
+- [x] Third line: a comment linking to the third-party source if an existing implementation was reused.
 - [ ] Have the team comment every critical line of code to demonstrate deep understanding. Comments may refer to PDF sections.
-- [ ] Verify execution to the end without an error.
+- [x] Verify execution to the end without an error.
 
 ## Final submission checklist
 

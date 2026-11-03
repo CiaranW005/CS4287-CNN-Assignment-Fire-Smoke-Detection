@@ -1,0 +1,3 @@
+= Level of Difficulty
+
+From the difficulty scale provided, we believe our hybrid model lies in the highest diffculty band, with a score of 2 marks. We implemented a hybrid model that combines both ResNet and YOLOv8, building our backbone layer-by-layer, before connecting with the YOLO neck and head using an adapter layer. The neck of the model was also built layer-by-layer, including the top-down FPN and bottom-up PAN passes. To add to this, we also wrote our own training loop with gradient accumulation and a differential learning rate for the backbone. Early-stopping, five-fold cross-validation and nine tuning experiments were also carried out by us while completing the project.
