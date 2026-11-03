@@ -35,7 +35,7 @@ On the test set, our model achieved an mAP50 of 0.7414 and an mAP50-95 of 0.4070
 
 As shown in @tab:test_size, detection performance improves with object size across all four metrics. Small objects achieved the lowest mAP50-95 of 0.2708, compared with 0.4044 for medium objects and 0.4727 for large objects. This reinforces the concerns identified during the experiments regarding the difficulty of detecting smaller objects.
 
-A particularly significant difference can be observed in recall. For small objects, recall decreases from 0.8272 at IoU 0.50 to 0.3429 at IoU 0.75, a reduction of 48.43%. In comparison, large-object recall decreases from 0.9248 to 0.6530, a reduction of 27.18%. This suggests that while the model can identify many smaller objects at lower IoU thresholds, achieving sufficiently accurate bounding-box localisation becomes considerably more difficult as the IoU threshold increases.
+A particularly significant difference can be observed in recall. For small objects, recall decreases from 0.8272 at IoU 0.50 to 0.3429 at IoU 0.75, a reduction of 48.43 percentage points. In comparison, large-object recall decreases from 0.9248 to 0.6530, a reduction of 27.18 percentage points. This suggests that while the model can identify many smaller objects at lower IoU thresholds, achieving sufficiently accurate bounding-box localisation becomes considerably more difficult as the IoU threshold increases.
 
 #figure(
   table(
@@ -48,4 +48,4 @@ A particularly significant difference can be observed in recall. For small objec
   caption: [Test-set average precision for each class, averaged over IoU thresholds from 0.50 to 0.95.],
 ) <tab:test_class>
 
-As shown in @tab:test_class, smoke achieved a higher mAP50-95 of 0.4689 compared with 0.3451 for fire, representing a difference of 12.38%. This indicates that the model performs considerably better at detecting smoke than fire. Although the aggregate metrics do not establish the cause of this difference, the results identify fire detection as an area requiring further improvement.
+As shown in @tab:test_class, smoke achieved a higher mAP50-95 of 0.4689 compared with 0.3451 for fire, representing a difference of 12.38 percentage points. This indicates that the model performs considerably better at detecting smoke than fire. Although the aggregate metrics do not establish the cause of this difference, the results identify fire detection as an area requiring further improvement.

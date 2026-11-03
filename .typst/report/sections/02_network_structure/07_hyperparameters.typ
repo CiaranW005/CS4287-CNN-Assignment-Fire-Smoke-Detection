@@ -14,7 +14,7 @@ The main hyperparameters of our final model are listed in @tab:hyperparameters. 
     [Learning rate $eta$], [$10^(-3)$],
     [Backbone learning rate], [$0.1 times eta$],
     [Weight decay $lambda$], [$10^(-4)$],
-    [Learning rate schedule], [Halved on the first validation loss plateau, then cosine decay to $0.1 times$; training stops on the second plateau],
+    [Learning rate schedule], [Halved on the first validation loss plateau, then cosine decay to $0.1 times eta/2$; training stops on the second plateau],
     [Loss gains], [Box 7.5, classification 0.5, DFL 1.5],
   ),
   caption: [Main hyperparameters of the final model.],

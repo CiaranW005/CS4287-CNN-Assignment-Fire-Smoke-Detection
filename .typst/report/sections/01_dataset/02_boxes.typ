@@ -64,7 +64,7 @@ These findings suggest that no additional stratification or adjustments are nece
   ],
   [
     #figure(
-      image("../../../../results/plots/data_analysis/box_centre_positions.png", height: 8cm),
+      image("../../../../results/plots/data_analysis/box_centre_positions.png", height: 10cm),
       caption: [Distribution of bounding-box \ centres for smoke and fire]
     ) <fig:box_positions>
   ]

@@ -16,7 +16,7 @@
   #line(length: 100%, stroke: 0.8pt)
 
   #v(2cm)
-  #text(size: 12pt, weight: "bold")[Work done by]
+  #text(size: 12pt, weight: "bold")[Work Completed by]
   #v(0.6cm)
   #align(center)[
     #table(

@@ -30,6 +30,10 @@
     [How do I calculate recall similarly to how MeanAveragePrecision is used?],
     [Explained how recall can be extracted from TorchMetrics evaluation results at different IoU thresholds and object sizes.],
     [Used to implement additional recall metrics for analysing detection performance across object sizes and IoU thresholds.],
+
+    [Can you generate me a interactive buttons so click through images so I do not have 18 images displaying vertically in a notebook],
+    [Explained how to create interactive image navigation buttons in a Jupyter notebook, allowing images to be displayed individually rather than all at once.],
+    [Used to implement an interactive image viewer for examining invalid dataset samples, reducing notebook clutter while allowing users to navigate between images.]
   ),
   caption: [Ciaran's generative AI prompts, responses and how they were used.],
 ) 

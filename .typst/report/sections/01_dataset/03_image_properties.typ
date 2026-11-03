@@ -12,7 +12,6 @@ This analysis also aims to identify any biases that could influence the model's 
 
 All images are converted to gray scale and properties are calculated via the pixel values.
 
-// TODO reference the sections
 ==== Brightness <sect:image_brigthness>
 Brightness is calculated as the mean pixel value across an image. Interestingly, between images that have no annotations and those that contain smoke there is a similar distribution while fire, which is something one would consider as bright, is seen as dark. This can be due to a multitude of reasons; the pictures are naturally darker, the exposure of the camera reducing the brightness of the fire to capture the rest of the image and, seen in @sect:bound_boxes, the fire boxes are generally tiny, so their brightness values across an entire image may not contribute as much to the overall mean, because it only takes up a small portion of the image. Further analysis will be done later to analyse any potential hypothesis for the reasons mentioned above.
 
@@ -57,6 +56,6 @@ Sharpness is calculated as the variance of the Laplacian, which is the second or
   ]
 )
 
-As discussed previously in @sect:image_brigthness within those plots the properties were looked at at a global image level, so it did not provide much information as to how these properties related to these bounding boxes. Properties within @fig:fire_box_props and @fig:smoke_box_props are only looked at within a single class type images due to the effects that terms like sharpness can have on boxes especially where fire and smoke may influence one another due to the nature of the items. 
+As discussed previously in @sect:image_brigthness within those plots the properties were looked at a global image level, so it did not provide much information as to how these properties related to these bounding boxes. Properties within @fig:fire_box_props and @fig:smoke_box_props are only looked at within a single class type images due to the effects that terms like sharpness can have on boxes especially where fire and smoke may influence one another due to the nature of the items. 
 
 Within @fig:fire_box_props it is still seen that fire itself is generally quite dark where the image around the fire tends to be even darker. This raises the question of whether it is exposure, the time of day or the effect of tiny annotations seen in @sect:bound_boxes. This would require a lot more analysis into whether its actually night time, whether these small annotations are very far away or small fires which we believe to be beyond the scope of this project.

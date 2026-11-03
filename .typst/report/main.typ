@@ -6,6 +6,9 @@
 #outline()
 #pagebreak()
 
+#set page(numbering: "1")
+#counter(page).update(1)
+
 #include "sections/01_dataset/main.typ"
 #include "sections/02_network_structure/main.typ"
 #include "sections/03_hyperparams/main.typ"
