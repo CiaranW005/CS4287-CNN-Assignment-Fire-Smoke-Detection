@@ -5,7 +5,7 @@ From both the @sect:eda and experimentation we decided on this preprocessing pip
 == Resizing and Letterboxing
 Letterboxing is a technique recommended by Ultralytics@ultralytics_preprocessing as it helps maintain the aspect ratios and proportions of objects when images are resized. This introduces padding around images when their aspect ratios differ from the designated input dimensions. One potential problem is that smaller objects may lose further visual information during down scaling, particularly when their dimensions are already small. However, experimenting with and without letterboxing showed improvements in small-object detection, despite some reductions in overall model performance. Therefore, we decided to use letterboxing and resize all images to a fixed resolution of $768 times 768$.
 
-== ColourJitter
+== ColourJitter <sec:colour_jitter>
 We randomly augment the brightness, contrast, saturation and hue of images using torchvision's ColourJitter within the training set. This introduces variations in image properties during training, allowing the model to generalise better across different lighting conditions and environments. The selected values determine the range from which the augmentation factors are randomly sampled.
 
 - *Brightness = 0.2 [0.8, 1.2]:* Randomly adjusts the brightness of an image. This is particularly useful for fire images, which were generally found to be darker during EDA. Randomly brightening or darkening these images can help reduce the model's reliance on specific lighting conditions.

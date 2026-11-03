@@ -1,6 +1,6 @@
 == LR Plateau Reductions <sect:lr_plateau>
 
-Due to our model starting from a pretrained backbone with a reduced learning rate, as mentioned in @sect:transfer_learn, the initial learning rate may not remain suitable throughout training. After several epochs, once the randomly initialised YOLO neck and head have begun learning, a smaller learning rate may help the model converge towards a better local minimum.
+Due to our model starting from a pretrained backbone with a reduced learning rate, as mentioned in @sec:transfer_learning, the initial learning rate may not remain suitable throughout training. After several epochs, once the randomly initialised YOLO neck and head have begun learning, a smaller learning rate may help the model converge towards a better local minimum.
 
 To identify when the learning rate should be reduced, a custom plateau detector was implemented using linear regression over a moving window of the five most recent validation losses. The slope is normalised by the absolute mean loss of the window, calculated as $m_"relative" = m / (|mu_L| + epsilon)$. A plateau is detected when the relative slope exceeds $-0.001$, indicating that the validation loss is improving by less than approximately 0.1% per epoch or has begun increasing. The learning rate is then halved across all parameter groups in the optimiser.
 

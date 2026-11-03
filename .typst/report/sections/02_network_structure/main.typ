@@ -4,3 +4,6 @@
 #include "02_yolo.typ"
 #include "03_transfer_learning.typ"
 #include "04_residuals.typ"
+#include "05_activation_functions.typ"
+#include "06_batch_norm_regularisation.typ"
+#include "07_hyperparameters.typ"

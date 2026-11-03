@@ -52,14 +52,14 @@ Use the sections below in order. The marked sections total 15 marks. The stateme
 
 **What needs to be done:** describe the chosen network, its configuration, and the reasons for its design.
 
-- [ ] Choose a suitable CNN architecture and explain the choice.
-- [ ] Include a network architecture diagram.
-- [ ] Implement the CNN layer by layer and describe its layers and connections.
-- [ ] Explain weight initialisation and activation functions.
-- [ ] Explain batch normalisation and regularisation, including whether and why they are used.
-- [ ] Record the hyperparameters used.
+- [x] Choose a suitable CNN architecture and explain the choice.
+- [x] Include a network architecture diagram.
+- [x] Implement the CNN layer by layer and describe its layers and connections.
+- [x] Explain weight initialisation and activation functions.
+- [x] Explain batch normalisation and regularisation, including whether and why they are used.
+- [x] Record the hyperparameters used.
 - [x] Describe transfer learning if used, including pretrained sources and what is frozen or trained.
-- [ ] Explain the architecture's distinguishing features. If using ResNet, include the required paragraphs on residual learning.
+- [x] Explain the architecture's distinguishing features. If using ResNet, include the required paragraphs on residual learning.
 
 ### 5. Loss function, optimiser, and cross-fold validation - 2 marks
 
