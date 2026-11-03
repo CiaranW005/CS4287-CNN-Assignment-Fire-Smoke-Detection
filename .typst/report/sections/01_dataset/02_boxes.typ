@@ -52,3 +52,20 @@ These findings suggest that no additional stratification or adjustments are nece
   ),
   caption: [Box Plots of area distribution by split]
 ) <fig:area_box_split>
+=== Spatial Distribution of Bounding Boxes <sect:box_positions>
+#grid(
+  columns: (1fr, auto),
+  column-gutter: 2em,
+
+  [
+    The spatial locations of the bounding boxes were examined by plotting the distribution of their centre coordinates, as shown in @fig:box_positions. Both fire and smoke annotations are concentrated towards the centre of their images, with smoke peaking slightly above the centre and fire spreading more evenly around it. Horizontally, both distributions are roughly symmetric, indicating no strong bias towards either side of an image. Small clusters of fire boxes can also be seen at the far left and right edges, which are likely objects cut off by the image boundaries.
+
+    This central concentration suggests that the model could learn to associate fire and smoke with the centre of an image rather than relying on their visual features, which is considered when selecting the augmentations in @sect:rand_augs.
+  ],
+  [
+    #figure(
+      image("../../../../results/plots/data_analysis/box_centre_positions.png", height: 8cm),
+      caption: [Distribution of bounding-box \ centres for smoke and fire]
+    ) <fig:box_positions>
+  ]
+)
