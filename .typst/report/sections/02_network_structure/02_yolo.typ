@@ -6,7 +6,7 @@ ResNet's channel counts are larger than the YOLO neck expects so to connect the 
 In CNNs, the model shrinks the image as it goes deeper into the model which can result in early, large maps that know _where_ objects are in the image but not _what_ they are. Deeper layers with smaller maps will know what things are but only roughly where.
 For the model to learn better as a whole, we mimiced the architecture of modern YOLO models and used the FPN top-down and PAN bottom-up structure for the neck of the model.
 
-The neck first completes a top-down pass, which upsamples smaller, deeper layers to match the size of the next higher-resolution map (@fig:neck_topdown). It then concantenates the two maps. Upsampling happens twice before the model moves to the PAN pass.
+The neck first completes a top-down pass, which upsamples smaller, deeper layers to match the size of the next higher-resolution map (@fig:neck_topdown). It then concatenates the two maps. Upsampling happens twice before the model moves to the PAN pass.
 
 #figure(
   image("../../../images/YOLOneck_topdown.png", width: 80%),

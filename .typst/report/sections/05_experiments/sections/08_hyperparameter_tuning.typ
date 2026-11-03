@@ -1,4 +1,4 @@
-== Hyperparameter Tuning
+== Hyperparameter Tuning <sect:hyperparams>
 
 For the base setting, we use a learning rate of $eta = 10^(-3)$, a weight decay of $10^(-4)$, a backbone learning rate of $0.1 times eta$ (@tab:transfer_learning) and augmentation turned on. Each experiment changes one of these per increment. All runs use the same training budget as cross-validation where validation occurs on fold 0 and the runs use the same seed.
 

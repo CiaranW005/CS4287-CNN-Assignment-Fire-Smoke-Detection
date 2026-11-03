@@ -4,7 +4,6 @@ The backbone is ResNet-50, implemented layer-by-layer in PyTorch. It's made up o
 
 The image goes through a $7 times 7$ convolution with stride 2, batch normalisation and ReLU, and then a $3 times 3$ max-pool with stride 2. By the time it reaches the residual stage, the image is 4 times smaller.
 
-
 For the residual blocks, each has three convolutions; a $1 times 1$ convolution that squeezes the channels down to a width $w$, a $2 times 3$ convolution at that width, and another $1 times 1$ convolution that brings the image back to $4w$ channels. Every convolution is followed by batch normalisation, with the first two also having ReLU. The output of the block is $"ReLU"(F(x) + S(x))$, where $S$ is the shortcut. If the input and output shapes match, the shoertcut is just the identity. If they don't, we use a $1 times 1$ convolution with batch normalisation to make them match.
 
 The four stages have 3, 4, 6 and 3 blocks. The first block in each stage uses a projection shortcut to change the number of channels. In stages 2-4 it also halves the resolution.

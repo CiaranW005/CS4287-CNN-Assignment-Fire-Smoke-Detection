@@ -1,4 +1,4 @@
-== Transfer Learning
+== Transfer Learning <sect:transfer_learn>
 
 Our ResNet-50 backbone is initialised with torchvision's 'IMAGENET1K_V2' weights, which were trained to classify the 1.28 million images of ImageNet into 1,000 classes. The backbone therefore already encodes general visual features such as edges, textures and shapes. Because our model only uses the backbone as a feature extractor, the final fully-connected classification layer is left out and only the stem and the four residual stages are used.
 

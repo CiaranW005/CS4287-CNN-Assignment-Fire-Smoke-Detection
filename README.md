@@ -68,7 +68,7 @@ Use the sections below in order. The marked sections total 15 marks. The stateme
 - [ ] Define the cost/loss/error/objective function and justify its suitability.
 - [ ] Discuss relevant alternative loss functions rather than naming a choice without explanation.
 - [ ] Identify and explain the optimiser; justify the choice against alternatives.
-- [ ] Carry out and describe cross-fold validation, including the number of folds and data allocation.
+- [x] Carry out and describe cross-fold validation, including the number of folds and data allocation.
 - [ ] Explain how models are compared and how a development set is used; these appear in the rubric's higher-band expectations.
 
 ### 6. Results and evaluation — 3 marks
@@ -86,12 +86,12 @@ Use the sections below in order. The marked sections total 15 marks. The stateme
 
 **What needs to be done:** run, analyse, and evaluate experiments on at least one of: data augmentation, architecture changes, hyperparameter changes, or deliberately engineered overfitting.
 
-- [ ] Define the experimental question and baseline.
-- [ ] Describe what changes between runs.
-- [ ] Train and evaluate the variants.
-- [ ] Present and compare results.
-- [ ] Explain why behaviour changed and what the team learned about neural computing.
-- [ ] Also address the overall objective of exploring the impact of varying hyperparameter(s).
+- [x] Define the experimental question and baseline.
+- [x] Describe what changes between runs.
+- [x] Train and evaluate the variants.
+- [x] Present and compare results.
+- [x] Explain why behaviour changed and what the team learned about neural computing.
+- [x] Also address the overall objective of exploring the impact of varying hyperparameter(s).
 
 ### 8. Estimated level of difficulty — 2 marks
 
@@ -112,7 +112,7 @@ Use the sections below in order. The marked sections total 15 marks. The stateme
 
 **What needs to be done:** write one paragraph per team member describing their actual contribution.
 
-- [ ] Include all three members.
+- [x] Include all three members.
 - [ ] Specify each person's implementation, experiments, analysis, and report work as applicable.
 - [ ] Make contributions clear enough to support individual grading.
 

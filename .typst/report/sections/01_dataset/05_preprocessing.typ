@@ -14,14 +14,13 @@ We randomly augment the brightness, contrast, saturation and hue of images using
 
 - *Saturation = 0.2 [0.8, 1.2]:* Randomly adjusts the intensity of colours within an image. This helps account for differences in camera characteristics and environmental conditions, particularly where fire and smoke may appear with different colour intensities.
 
-//TODO get source for this
 - *Hue = 0.015 [-0.015, 0.015]:* Randomly shifts the hue within torchvision's normalised hue range. This value is the default hue augmentation parameter used by Ultralytics YOLO @ultralytics_augmentation. The relatively small adjustment helps preserve the general colours of fire and smoke while introducing some colour variation.
 
 == Normalisation
 
 The images are then normalised using the standard RGB channel statistics from ImageNet, which is the dataset used to pretrain our ResNet backbone. The mean values for these channels are [0.485, 0.456, 0.406], with standard deviations of [0.229, 0.224, 0.225] @torchvision_resnet, respectively. Normalising using these values helps maintain consistency with the input distribution used during pretraining, allowing the model to make better use of its pretrained weights rather than having to adapt to an entirely different input scale.
 
-== Random Augmentations
+== Random Augmentations <sect:rand_augs>
 
 Two random augmentations introduced into our pipeline to help improve the generalisation of our model were horizontal flips and random zoom-ins. Boundary boxes were also updated relative to whenever each augmentation was applied.
 
