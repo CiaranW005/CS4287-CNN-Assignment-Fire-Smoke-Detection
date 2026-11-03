@@ -1,6 +1,6 @@
 = Preprocessing
 
-From both the @sect:eda and experimentation we decided on this preprocessing pipeline for our data. The data was cleaned for any mistakes in labelling discussed in @sect:box_cleaning
+From @sect:eda analysis we decided on this preprocessing pipeline for our data. The data was cleaned for any mistakes in labelling discussed in @sect:box_cleaning
 
 == Resizing and Letterboxing
 Letterboxing is a technique recommended by Ultralytics@ultralytics_preprocessing as it helps maintain the aspect ratios and proportions of objects when images are resized. This introduces padding around images when their aspect ratios differ from the designated input dimensions. One potential problem is that smaller objects may lose further visual information during down scaling, particularly when their dimensions are already small. However, experimenting with and without letterboxing showed improvements in small-object detection, despite some reductions in overall model performance. Therefore, we decided to use letterboxing and resize all images to a fixed resolution of $768 times 768$.
@@ -24,7 +24,6 @@ The images are then normalised using the standard RGB channel statistics from Im
 
 Two random augmentations introduced into our pipeline to help improve the generalisation of our model were horizontal flips and random zoom-ins. Boundary boxes were also updated relative to whenever each augmentation was applied.
 
-// TODO @emmao1024 do you have that bounding box image thing where they were localised to add about this
-- *Horizontal Flips (p = 50%)* - This augmentation randomly flips images horizontally, helping prevent the model from becoming overly reliant on the horizontal positioning of objects and backgrounds. As discussed in [EDA], this encourages the model to recognise fire and smoke under different spatial arrangements rather than associating them with particular sides of an image.
+- *Horizontal Flips (p = 50%)* - This augmentation randomly flips images horizontally, helping prevent the model from becoming overly reliant on the horizontal positioning of objects and backgrounds. As shown in @sect:box_positions, fire and smoke are concentrated towards the centre of images and are roughly symmetric horizontally, so flipping does not change their overall positional distribution. Instead, it increases the variety of left/right arrangements of objects and backgrounds seen during training, encouraging the model to recognise fire and smoke under different spatial arrangements rather than associating them with particular sides of an image.
 
 - *Random Zoom-ins (p = 50%)* - As discussed in @sect:bound_boxes, fire bounding boxes generally occupied a very small proportion of their images. To help address this, random zoom-ins were introduced to increase the apparent size of smaller annotations during training, potentially making them easier for the model to learn from. The maximum zoom-in factor was 30%, bounding boxes were clipped or removed if they were no longer in this new image.
