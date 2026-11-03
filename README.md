@@ -65,9 +65,9 @@ Use the sections below in order. The marked sections total 15 marks. The stateme
 
 **What needs to be done:** explain how learning works and how performance is validated.
 
-- [ ] Define the cost/loss/error/objective function and justify its suitability.
-- [ ] Discuss relevant alternative loss functions rather than naming a choice without explanation.
-- [ ] Identify and explain the optimiser; justify the choice against alternatives.
+- [x] Define the cost/loss/error/objective function and justify its suitability.
+- [x] Discuss relevant alternative loss functions rather than naming a choice without explanation.
+- [x] Identify and explain the optimiser; justify the choice against alternatives.
 - [x] Carry out and describe cross-fold validation, including the number of folds and data allocation.
 - [x] Explain how models are compared and how a development set is used; these appear in the rubric's higher-band expectations.
 
