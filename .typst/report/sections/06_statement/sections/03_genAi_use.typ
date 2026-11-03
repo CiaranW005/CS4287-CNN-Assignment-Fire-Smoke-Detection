@@ -1,5 +1,7 @@
 = Generative AI Use
 
+*Emma O'Reilly (23304472)*
+
 Generative AI tools were used sparsely throughout the project, primarily for explanations, troubleshooting and debugging. 
 The list below outlines all prompts used, along with the responses generated:
 
@@ -17,26 +19,17 @@ The list below outlines all prompts used, along with the responses generated:
 
 I used GenAI for my parts of the project. These are the main prompts I used; a full log of every prompt is available on request.
 
-+ "Integrate everyones code the best we can as a draft for the final Notebook, but its vital if we have the option to use preexisting csvs as results to save computational time" \
-  _Response:_ Built a draft of the final notebook with everyone's code, which loads saved results and only trains what is missing. \
-  _Used:_ As a draft for the final notebook which I then checked and edited.
-
-+ "Before we do that double check that the outputs ran match the report" \
-  _Response:_ Compared the notebook outputs with the numbers in the report. \
-  _Used:_ Confirm report matches the notebook.
-
-+ "Lets clean up the markdown for the final notebook draft too, let's remove anything unneccessary and keep it consise" \
-  _Response:_ Shortened the text cells of the notebook. \
-  _Used:_ In the final notebook.
-
-+ "Is there anything that may appear as vague that I should comment in my segments of the final notebook code? Highlight these as \[edit\] so I can return to" \
-  _Response:_ Listed lines in my code that needed comments marked \[edit\]. \
-  _Used:_ I wrote the comments for lines labelled \[edit\].
-
-+ "Ok, cool, can you update any of my other notebooks with the exact same comments as well then" \
-  _Response:_ Copied my comments into my cross-validation and hyperparameter tuning notebooks. \
-  _Used:_ In the notebooks above.
-
-+ "Can you check my near-duplicates paragraph against the results and flag discrepencies??" \
-  _Response:_ Checked each number in the paragraph and table against the results and flagged two rounding errors. \
-  _Used:_ Correct the two rounded numbers in my near-duplicates table (@tab:test_subsets): mAP50 0.860 to 0.859 and mAR100 0.534 to 0.533.
+#figure(
+  table(
+    columns: (1fr, 1.0fr, 1.5fr),
+    align: (left, left, left),
+    [*Complete prompt*], [*One-line response summary*], [*How it was used in the submission*],
+    ["Integrate everyones code the best we can as a draft for the final Notebook, but its vital if we have the option to use preexisting csvs as results to save computational time"], [Built a draft of the final notebook with everyone's code, which loads saved results and only trains what is missing.], [As a draft for the final notebook which I then checked and edited.],
+    ["Before we do that double check that the outputs ran match the report"], [Compared the notebook outputs with the numbers in the report.], [Confirm report matches the notebook.],
+    ["Lets clean up the markdown for the final notebook draft too, let's remove anything unneccessary and keep it consise"], [Shortened the text cells of the notebook.], [In the final notebook.],
+    ["Is there anything that may appear as vague that I should comment in my segments of the final notebook code? Highlight these as \[edit\] so I can return to"], [Listed lines in my code that needed comments marked \[edit\].], [I wrote the comments for lines labelled \[edit\].],
+    ["Ok, cool, can you update any of my other notebooks with the exact same comments as well then"], [Copied my comments into my cross-validation and hyperparameter tuning notebooks.], [In the notebooks mentioned.],
+    ["Can you check my near-duplicates paragraph against the results and flag discrepencies??"], [Checked each number in the paragraph and table against the results and flagged two rounding errors.], [Correct the two rounded numbers in my near-duplicates table (@tab:test_subsets): mAP50 0.860 to 0.859 and mAR100 0.534 to 0.533.],
+  ),
+  caption: [Hersh's generative AI prompts, responses and how they were used.],
+) <tab:genai_use_hersh>
