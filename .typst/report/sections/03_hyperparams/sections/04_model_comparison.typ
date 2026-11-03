@@ -1,7 +1,12 @@
 // What metrics we used to make decisiosn (map95 as overall, recall to assess model quality on smaller boxes)
 
-// TODO explain what IoU is
 == Model Comparison <sec:model_compare>
+
+For each predicted box, we compare it to the true box with intersection over union (IoU), the area where the two boxes overlap divided by the total area they cover together.
+
+$ "IoU" = abs(B_"pred" inter B_"true") / abs(B_"pred" union B_"true") $
+
+IoU ranges from 0 to 1, in relation of when the boxes do not overlap to when they match exactly. A prediction counts as correct if the IoU with a true box reaches a threshold, a higher threshold means the box fits more tightly.
 
 All models are scored with COCO average precision from torchmetrics @torchmetrics_map. Before scoring, overlapping detections are removed with non-maximum suppression, using the settings Ultralytics validates with (confidence 0.001, IoU 0.7, at most 300 boxes per image).
 
