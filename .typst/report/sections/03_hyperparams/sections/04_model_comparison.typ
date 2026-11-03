@@ -2,7 +2,7 @@
 
 == Model Comparison
 
-All models are scored with COCO average precision from torchmetrics. Before scoring, overlapping detections are removed with non-maximum suppression, using the settings Ultralytics validates with (confidence 0.001, IoU 0.7, at most 300 boxes per image).
+All models are scored with COCO average precision from torchmetrics @torchmetrics_map. Before scoring, overlapping detections are removed with non-maximum suppression, using the settings Ultralytics validates with (confidence 0.001, IoU 0.7, at most 300 boxes per image).
 
 #figure(
   table(

@@ -1,6 +1,6 @@
 == Cross-Validation
 
-Some of the images in the dataset are near-identical frames of the same scene. If one of these is in the training fold and another in the validation fold, the model is tested on an image it has already seen which can cause data leakage. To avoid this, each image is given a difference hash (dHash), and images whose hashes differ by 4 bits or less are placed in the same group. The groups are then split across five folds, so a group is never in two folds. The original splits do not do this, as 1,459 of the 3,099 validation images share a group with a training image.
+Some of the images in the dataset are near-identical frames of the same scene. If one of these is in the training fold and another in the validation fold, the model is tested on an image it has already seen which can cause data leakage. To avoid this, each image is given a difference hash (dHash) @imagehash_dhash, and images whose hashes differ by 4 bits or less are placed in the same group. The groups are then split across five folds, so a group is never in two folds @sklearn_group_kfold. The original splits do not do this, as 1,459 of the 3,099 validation images share a group with a training image.
 
 #figure(
   table(
@@ -17,7 +17,7 @@ Some of the images in the dataset are near-identical frames of the same scene. I
 
 The folds have the same size but differ in content (@tab:fold_balance). Fold 2 has the most fire boxes and the fewest empty images while fold 3 has the most empty images.
 
-To keep training time down, each run trains for 8 epochs on 3,000 images from four folds and is validated on 1,000 images from the fifth. The other settings match the full training (batch size of 8 with 4 accumulation steps, 768 pixel images, AdamW optimiser). One epoch took about 97 seconds on an RTX 3080 (10GiB VRAM variant).
+To keep training time down, each run trains for 8 epochs on 3,000 images from four folds and is validated on 1,000 images from the fifth. The other settings match the full training (batch size of 8 with 4 accumulation steps, 768 pixel images, AdamW optimiser @pytorch_adamw). One epoch took about 97 seconds on an RTX 3080 (10GiB VRAM variant).
 
 We cross-validated the base setting and a weight decay of $10^(-3)$, the only change that beat the base in hyperparameter tuning (@tab:tuning).
 
@@ -38,7 +38,7 @@ We cross-validated the base setting and a weight decay of $10^(-3)$, the only ch
   caption: [Best validation mAP50-95 on each fold, with means of other metrics.],
 ) <tab:cross_validation>
 
-Both settings perform the same (@tab:cross_validation). Their mean mAP50-95 differs by only 0.0005 and a paired t-test gives $p = 0.90$. Weight decay $10^(-3)$ performs its best at fold 0, while the base does best on fold 2.
+Both settings perform the same (@tab:cross_validation). Their mean mAP50-95 differs by only 0.0005 and a paired t-test @scipy_ttest_rel gives $p = 0.90$. Weight decay $10^(-3)$ is furthest ahead at fold 0, while the base is furthest ahead on fold 2.
 
 Both settings score highest on fold 2, which has the most fire boxes and the fewest empty images, and lowest on fold 1. In 9 of the 10 runs the best epoch was the last one so the model was still improving when training stopped (@fig:cross_validation). Training for longer likely has more influence than the choice of weight decay.
 
